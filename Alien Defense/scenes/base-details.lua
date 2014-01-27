@@ -5,7 +5,7 @@
 ----------------------------------------------------------------------------------
 local widget = require( "widget" )
 local storyboard = require( "storyboard" )
-local defense = require( "defense" )
+local defense = require( "lib.defense" )
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
 -- 
@@ -31,7 +31,7 @@ local base_sprite
 local base_sheet
 ---------------------------------------------------------------------------------
 local function tap_home( event ) 
-	storyboard.gotoScene( "info-base", {effect="slideDown", time=400} )
+	storyboard.gotoScene( "scenes.info-base", {effect="slideDown", time=400} )
 end 
 
 local function on_rof_slider( event ) 
@@ -62,7 +62,11 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-	base_sheet = graphics.newImageSheet( "Satellites.png", {width=34, height=34, numFrames=25} )
+	local back = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+	back:setFillColor( 0.232, 0.245, 0.271 )
+	group:insert( back )
+	
+	base_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
 	
 	
 	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )
@@ -147,10 +151,10 @@ function scene:willEnterScene( event )
 	base_rof 	= data.rof
 	base_cost 	= data.cost
 	
-	details_text.text 	= "NAME:" .. data.name
-	rof_text.text 		= "ROF:" .. data.rof
-	damage_text.text 	= "DAMAGE:" .. data.damage
-	cost_text.text 		= "COST:" .. data.cost
+	details_text.text 	= "NAME: " .. data.name
+	rof_text.text 		= "ROF: " .. data.rof
+	damage_text.text 	= "DAMAGE: " .. data.damage
+	cost_text.text 		= "COST: " .. data.cost
 	
 	rof_slider:setValue( base_rof / 2000 * 100 ) 		-- range 250 to 2000
 	damage_slider:setValue( base_damage / 10 * 100 )	-- 1 to 10

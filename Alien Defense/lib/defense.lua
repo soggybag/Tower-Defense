@@ -3,10 +3,10 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local energy 			= require( "energy" )
-local bullet_manager 	= require( "bullet_manager" )
+local energy 			= require( "lib.energy" )
+local bullet_manager 	= require( "lib.bullet_manager" )
 
-local sprite_sheet = graphics.newImageSheet( "Satellites.png", {width=34, height=34, numFrames=25} )
+local sprite_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
 
 local selected_defense = 1
 local defense_array = {}

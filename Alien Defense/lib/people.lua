@@ -4,7 +4,7 @@ local M = {}
 -------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-local sprite_sheet = graphics.newImageSheet( "Alien-All.png", {width=34, height=34, numFrames=80} )
+local sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )
 local eat_person_sound
 -------------------------------------------------------------------------------
 local PEOPLE_SIZE = {width=3, height=6}

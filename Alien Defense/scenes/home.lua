@@ -23,19 +23,19 @@ local send_button
 local worlds_button
 
 local function tap_start( event ) 
-	storyboard.gotoScene( "game", {effect="slideRight", time=400} )
+	storyboard.gotoScene( "scenes.game", {effect="slideRight", time=400} )
 end 
 
 local function tap_alien( event ) 
-	storyboard.gotoScene( "info-alien", {effect="slideUp", time=400} )
+	storyboard.gotoScene( "scenes.info-alien", {effect="slideUp", time=400} )
 end 
 
 local function tap_base( event ) 
-	storyboard.gotoScene( "info-base", {effect="slideUp", time=400} )
+	storyboard.gotoScene( "scenes.info-base", {effect="slideUp", time=400} )
 end 
 
 local function tap_worlds( event ) 
-	storyboard.gotoScene( "info-worlds", {effect="slideUp", time=400} )
+	storyboard.gotoScene( "scenes.info-worlds", {effect="slideUp", time=400} )
 end 
 
 local function tap_send( event )
@@ -46,8 +46,8 @@ local function tap_send( event )
 	local version 		= system.getInfo( "appVersionString" )
 	-- local alien_json 	= require( "json" ).encode( require( "alien" ).get_types() )
 	-- local base_json 	= require( "json" ).encode( require( "defense" ).get_types() )
-	local alien_json 	= require("S2T").tableToString( require( "alien" ).get_types() )
-	local base_json 	= require("S2T").tableToString( require( "defense" ).get_types() )
+	local alien_json 	= require("lib.S2T").tableToString( require( "lib.alien" ).get_types() )
+	local base_json 	= require("lib.S2T").tableToString( require( "lib.defense" ).get_types() )
 
 	local options = {
 		to = "soggybag@gmail.com",
@@ -69,8 +69,8 @@ function scene:createScene( event )
 	local group = self.view
 
 	-- local sprite_sheet = graphics.newImageSheet( "Aliens-32.png", require( "Aliens-32" ).getSheetOptions() )	
-	local sprite_sheet = graphics.newImageSheet( "Alien-All.png", {width=34, height=34, numFrames=80} )	
-	local base_sheet = graphics.newImageSheet( "Satellites.png", {width=34, height=34, numFrames=25} )
+	local sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )	
+	local base_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
 	
 	
 	local play_text = display.newText( group, "PLAY", 0, 0, "04B03", 32 )

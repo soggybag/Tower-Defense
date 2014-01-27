@@ -2,7 +2,7 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local sprite_sheet = graphics.newImageSheet( "Satellites.png", {width=34, height=34, numFrames=25} )
+local sprite_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
 -----------------------------------------------------------------------------------------
 local function make( name, cost, frame )
 	local button_group = display.newGroup()

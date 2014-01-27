@@ -11,15 +11,15 @@ local scene = storyboard.newScene()
 
 
 -----------------------------------------------------------------------------------------
-local alien				= require( "alien" )
-local energy	 		= require( "energy" )
-local defense_buttons 	= require( "defense_button_group" )
-local grid				= require( "grid" )
-local bullet_manager	= require( "bullet_manager" )
-local collision_manager = require( "collision_manager" )
-local defense			= require( "defense" )
-local people 			= require( "people" )
-local worlds			= require( "worlds" )
+local alien				= require( "lib.alien" )
+local energy	 		= require( "lib.energy" )
+local defense_buttons 	= require( "lib.defense_button_group" )
+local grid				= require( "lib.grid" )
+local bullet_manager	= require( "lib.bullet_manager" )
+local collision_manager = require( "lib.collision_manager" )
+local defense			= require( "lib.defense" )
+local people 			= require( "lib.people" )
+local worlds			= require( "lib.worlds" )
 -----------------------------------------------------------------------------------------
 local controls_group
 local defense_group
@@ -33,7 +33,7 @@ local function check_game_over()
 		-- Game Over 
 		print( "Game on frame game over" )
 		scene:destroyScene()
-		storyboard.gotoScene( "game_over", {effect="slideUp", time=400} )
+		storyboard.gotoScene( "scenes.game_over", {effect="slideUp", time=400} )
 	end 
 end 
 -----------------------------------------------------------------------------------------
@@ -47,13 +47,13 @@ end
 -----------------------------------------------------------------------------------------
 local function tap_home( event ) 
 	print( "Game Tap Home" )
-	storyboard.gotoScene( "home", {effect="slideLeft", time=400} )
+	storyboard.gotoScene( "scenes.home", {effect="slideLeft", time=400} )
 end 
 
 local function on_game_over( event )
 	print( "Game On Game Over" )
 	scene:destroyScene()
-	storyboard.gotoScene( "game_over", {effect="slideUp", time=400} )
+	storyboard.gotoScene( "scenes.game_over", {effect="slideUp", time=400} )
 end 
 -----------------------------------------------------------------------------------------
 -- STORYBOARD HANDLERS
@@ -83,7 +83,7 @@ function scene:createScene( event )
 	if event.params ~= nil then
 		world_index = event.params.world_index
 	end  
-	background = require( "world_background" ).make( world_index )
+	background = require( "lib.world_background" ).make( world_index )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 	

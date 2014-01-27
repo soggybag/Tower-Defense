@@ -4,7 +4,7 @@
 --
 ----------------------------------------------------------------------------------
 local widget = require( "widget" )
-local defense_types = require( "defense" ).get_types()
+local defense_types = require( "lib.defense" ).get_types()
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
@@ -12,10 +12,13 @@ local scene = storyboard.newScene()
 local home_button
 local list
 local sprite_sheet
+local ROW_COLOR = {default={0.2,0.2,0.2}, over={0,0,0}}
+local NAME_COLOR = {0.6,0.6,0.6}
+local SUB_COLOR = {0.8,0.8,0.8}
 
 -----------------------------------------------------------------------------------------
 local function tap_home( event ) 
-	storyboard.gotoScene( "home", {effect="slideDown", time=400} )
+	storyboard.gotoScene( "scenes.home", {effect="slideDown", time=400} )
 end 
 
 local function onRowRender( event )
@@ -27,28 +30,39 @@ local function onRowRender( event )
     local rowHeight = row.contentHeight
     local rowWidth = row.contentWidth
 
-	local str = defense_types[index].name
-	str = str .. " ROF: ".. defense_types[index].rof 
-	str = str .. " DAMAGE: ".. defense_types[index].damage
+	local str = "ROF: ".. defense_types[index].rof 
+	str = str .. " DAM: ".. defense_types[index].damage
 	str = str .. " COST: ".. defense_types[index].cost  
 
-    local rowTitle = display.newText( row, str, 0, 0, "04B03", 16 )
-    rowTitle:setFillColor( 0 )
+    local rowTitle = display.newText( row, defense_types[index].name, 0, 0, "04B03", 24 )
+    rowTitle:setFillColor( NAME_COLOR[1], NAME_COLOR[2], NAME_COLOR[3] )
     -- Align the label left and vertically centered
     rowTitle.anchorX = 0
-    rowTitle.x = 40
-    rowTitle.y = rowHeight * 0.5
+    rowTitle.x = 50
+    rowTitle.y = 16
+    
+    local subTitle = display.newText( row, str, 0, 0, "04B03", 16 )
+    subTitle:setFillColor( SUB_COLOR[1], SUB_COLOR[2], SUB_COLOR[3] )
+    -- Align the label left and vertically centered
+    subTitle.anchorX = 0
+    subTitle.x = 50
+    subTitle.y = 36
     
     local rowSprite = display.newSprite( row, sprite_sheet, defense_types[index].sprite )
-    rowSprite.x = 20
-    rowSprite.y = 20
+    rowSprite.x = 25
+    rowSprite.y = 25
+    
+    local arrow = display.newText( row, ">", 0, 0, "04B03", 24 )
+    arrow:setFillColor( NAME_COLOR[1], NAME_COLOR[2], NAME_COLOR[3] )
+    arrow.x = display.contentWidth - 12
+    arrow.y = 25
 end 
 
 local function onRowTouch( event )
 	if event.phase == "release" then 
 		local data = defense_types[event.target.index]
 		print( "On row touch data name:", data.name )
-		storyboard.gotoScene( "base-details", {effect="slideUp", time=400, params={data=data}} )
+		storyboard.gotoScene( "scenes.base-details", {effect="slideUp", time=400, params={data=data}} )
 	end 
 end
 
@@ -56,7 +70,7 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-	sprite_sheet = graphics.newImageSheet( "Satellites.png", {width=34, height=34, numFrames=25} )
+	sprite_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
 	
 	local list = widget.newTableView( {
 		left = 0,
@@ -65,6 +79,8 @@ function scene:createScene( event )
 		width = display.contentWidth,
 		onRowRender = onRowRender,
 		onRowTouch = onRowTouch,
+		backgroundColor = { 0.3, 0.3, 0.3 },
+		noLines = true,
 		listener = scrollListener,
 		scrollBarOptions = {
 			sheet = scrollBarSheet,
@@ -77,7 +93,10 @@ function scene:createScene( event )
 	group:insert( list )
 	
 	for i = 1, #defense_types do 
-		list:insertRow( {} )
+		list:insertRow( {
+			rowColor=ROW_COLOR,
+			rowHeight=50
+		} )
 	end
 
 	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )

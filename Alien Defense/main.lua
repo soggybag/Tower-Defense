@@ -8,10 +8,10 @@ display.setStatusBar( display.HiddenStatusBar )
 display.setDefault( "magTextureFilter", "nearest" )
 display.setDefault( "minTextureFilter", "nearest" )
 
-local storyboard = require "storyboard"
+local storyboard = require( "storyboard" )
 
 -- load scenetemplate.lua
-storyboard.gotoScene( "home", {effect="slideRight", time=400} )
+storyboard.gotoScene( "scenes.home", {effect="slideRight", time=400} )
 
 -- Add any objects that should appear on all scenes below (e.g. tab bar, hud, etc.):
 
@@ -31,17 +31,6 @@ local monitorMem = function()
 end
 Runtime:addEventListener( "enterFrame", monitorMem )
 -----------------------------------------------------------------------------------------
-local function init_worlds_data()
-	local worlds = require( "worlds" )
-	local worlds_array = {}
-	for i = 1, 10 do 
-		worlds_array[ #worlds_array + 1 ] = worlds.add()
-	end 
-	return worlds_array
-end
-
-init_worlds_data()
-
 local function init_aliens_data()
 	return { 
 		{name="blue", 	speed=0.2, hits=5, damage=0.1, options={ frames={1,2,3,2,1,4,5,6,7,6,5,4,11,12,13,14,13,12,11,4,8,9,10,9,8 }, time=2000 } },
@@ -62,7 +51,9 @@ local function init_defenses_data()
 	}
 end 
 -----------------------------------------------------------------------------------------
+require( "lib.worlds" )
 
+--[[
 local AutoStore = require( "dmc_autostore" )
 
 local function initializeAutoStore()
@@ -87,6 +78,7 @@ local function initializeAutoStore()
     -- and there's no ".save()" in sight !
 end
 initializeAutoStore()
+--]]
 -----------------------------------------------------
 
 

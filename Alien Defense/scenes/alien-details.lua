@@ -5,7 +5,7 @@
 ----------------------------------------------------------------------------------
 local widget = require( "widget" )
 local storyboard = require( "storyboard" )
-local alien = require( "alien" )
+local alien = require( "lib.alien" )
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
 -- 
@@ -28,7 +28,7 @@ local alien_sprite
 local sprite_sheet
 ---------------------------------------------------------------------------------
 local function tap_home( event ) 
-	storyboard.gotoScene( "info-alien", {effect="slideDown", time=400} )
+	storyboard.gotoScene( "scenes.info-alien", {effect="slideDown", time=400} )
 end 
 
 local function on_speed_slider( event ) 
@@ -52,7 +52,11 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-	sprite_sheet = graphics.newImageSheet( "Alien-All.png", {width=34, height=34, numFrames=80} )	
+	local back = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+	back:setFillColor( 0.232, 0.245, 0.271 )
+	group:insert( back )
+	
+	sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )	
 	
 	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )
 	home_button.x = display.contentWidth - 30
@@ -106,6 +110,9 @@ function scene:willEnterScene( event )
 	alien_name = data.name
 	alien_hits = data.hits
 	alien_speed = data.speed
+	
+	speed_slider:setValue( alien_speed / 5 * 100 )
+	hits_slider:setValue( alien_hits / 10 * 100 )
 
 	display.remove( alien_sprite ) 
 	alien_sprite = display.newSprite( sprite_sheet, data.options )
@@ -116,9 +123,9 @@ function scene:willEnterScene( event )
 	alien_sprite.x = 60
 	alien_sprite.y = 60
 	
-	details_text.text = "NAME:" .. alien_name
-	speed_text.text = "SPEED:" .. alien_speed
-	hits_text.text = "NAME:" .. alien_hits
+	details_text.text = "NAME: " .. alien_name
+	speed_text.text = "SPEED: " .. alien_speed
+	hits_text.text = "HITS: " .. alien_hits
 	
 end 
 
@@ -126,8 +133,6 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	speed_slider:setValue( alien_speed / 5 * 100 )
-	hits_slider:setValue( alien_hits / 10 * 100 )
 	home_button:addEventListener( "tap", tap_home )
 end
 

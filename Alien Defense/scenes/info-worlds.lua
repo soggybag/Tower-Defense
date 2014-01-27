@@ -4,7 +4,7 @@
 --
 ----------------------------------------------------------------------------------
 local widget = require( "widget" )
-local worlds = require( "worlds" )
+local worlds = require( "lib.worlds" )
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
@@ -14,9 +14,13 @@ local list
 local sprite_sheet
 local world_array = {}
 
+local ROW_COLOR = {default={0.2,0.2,0.2}, over={0,0,0}}
+local NAME_COLOR = {0.6,0.6,0.6}
+local SUB_COLOR = {0.8,0.8,0.8}
+
 -----------------------------------------------------------------------------------------
 local function tap_home( event ) 
-	storyboard.gotoScene( "home", {effect="slideDown", time=400} )
+	storyboard.gotoScene( "scenes.home", {effect="slideDown", time=400} )
 end 
 
 local function onRowRender( event )
@@ -28,33 +32,33 @@ local function onRowRender( event )
     local rowHeight = row.contentHeight
     local rowWidth = row.contentWidth
     
-    local name_text = display.newText( world_array[index].name, 0, 0, "04B03", 24 ) 
-	name_text:setFillColor( 0 )
+    local name_text = display.newText( row, world_array[index].name, 0, 0, "04B03", 24 ) 
+	name_text:setFillColor( NAME_COLOR[1], NAME_COLOR[2], NAME_COLOR[3] )
     
     name_text.anchorX = 0
-    name_text.x = 44
-    name_text.y = rowHeight * 0.5
-    row:insert( name_text )
+    name_text.x = 50
+    name_text.y = 16
     
+    local pop_text = display.newText( row, "POPULATION: " .. world_array[index].population, 0, 0, "04B03", 16 )
+    pop_text.anchorX = 0
+    pop_text.x = 50
+    pop_text.y = 36
+    pop_text:setFillColor( SUB_COLOR[1], SUB_COLOR[2], SUB_COLOR[3] )
     
-    local pop_text = display.newText( world_array[index].population, 0, 0, "04B03", 16 )
-    row:insert( pop_text )
-    pop_text.x = display.contentCenterX + 20
-    pop_text.y = 20
-    pop_text:setFillColor( 0 )
-    
-    local world_sprite = display.newCircle( 0, 0, 16 )
+    local world_sprite = display.newCircle( row, 0, 0, 16 )
     world_sprite:setFillColor( world_array[index].color.r, world_array[index].color.g, world_array[index].color.b )
-    row:insert( world_sprite )
     world_sprite.x = rowHeight / 2
     world_sprite.y = rowHeight / 2
     
-    
+    local arrow = display.newText( row, ">", 0, 0, "04B03", 24 )
+    arrow:setFillColor( NAME_COLOR[1], NAME_COLOR[2], NAME_COLOR[3] )
+    arrow.x = display.contentWidth - 12
+    arrow.y = 25
 end 
 
 local function onRowTouch( event )
 	if event.phase == "release" then 
-		storyboard.gotoScene( "game", {effect="slideUp", time=400, params={world_index=event.row.index} } )
+		storyboard.gotoScene( "scenes.game", {effect="slideUp", time=400, params={world_index=event.row.index} } )
 	end 
 end
 
@@ -62,7 +66,7 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-	sprite_sheet = graphics.newImageSheet( "Satellites.png", {width=34, height=34, numFrames=25} )
+	sprite_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
 	
 	local list = widget.newTableView( {
 		left = 0,
@@ -72,6 +76,8 @@ function scene:createScene( event )
 		onRowRender = onRowRender,
 		onRowTouch = onRowTouch,
 		listener = scrollListener,
+		backgroundColor = { 0.3, 0.3, 0.3 },
+		noLines = true,
 		scrollBarOptions = {
 			sheet = scrollBarSheet,
 			topFrame = 1,
@@ -84,7 +90,10 @@ function scene:createScene( event )
 	
 	for item in worlds.iterate_worlds() do 
 		world_array[#world_array+1] = {name=item.name, population=item.population, color=item.color}
-		list:insertRow( {} )
+		list:insertRow( {
+			rowColor=ROW_COLOR,
+			rowHeight=50
+		} )
 	end
 	
 

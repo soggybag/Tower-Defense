@@ -4,7 +4,7 @@
 --
 ----------------------------------------------------------------------------------
 local widget = require( "widget" )
-local alien_types = require( "alien" ).get_types()
+local alien_types = require( "lib.alien" ).get_types()
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
@@ -13,9 +13,13 @@ local home_button
 local list
 local sprite_sheet
 
+local ROW_COLOR = {default={0.2,0.2,0.2}, over={0,0,0}}
+local NAME_COLOR = {0.6,0.6,0.6}
+local SUB_COLOR = {0.8,0.8,0.8}
+
 -----------------------------------------------------------------------------------------
 local function tap_home( event ) 
-	storyboard.gotoScene( "home", {effect="slideDown", time=400} )
+	storyboard.gotoScene( "scenes.home", {effect="slideDown", time=400} )
 end 
 
 local function onRowRender( event )
@@ -25,30 +29,41 @@ local function onRowRender( event )
 
     -- Cache the row "contentWidth" and "contentHeight" because the row bounds can change as children objects are added
     local rowHeight = row.contentHeight
-    local rowWidth = row.contentWidth
+    local rowWidth = row.contentWidth 
 
-	local str = alien_types[index].name
-	str = str .. " SPEED: ".. alien_types[index].speed 
-	str = str .. " HITS: ".. alien_types[index].hits 
-
-    local rowTitle = display.newText( row, str, 0, 0, "04B03", 16 )
-    rowTitle:setFillColor( 0 )
+    local rowTitle = display.newText( row, string.upper(alien_types[index].name), 0, 0, "04B03", 24 )
+    rowTitle:setFillColor( NAME_COLOR[1], NAME_COLOR[2], NAME_COLOR[3] )
     -- Align the label left and vertically centered
     rowTitle.anchorX = 0
-    rowTitle.x = 40
-    rowTitle.y = rowHeight * 0.5
+    rowTitle.x = 50
+    rowTitle.y = 16
+    
+    local str = " SPEED: ".. alien_types[index].speed 
+	str = str .. " HITS: ".. alien_types[index].hits
+	
+	 local subTitle = display.newText( row, str, 0, 0, "04B03", 16 )
+    subTitle:setFillColor( SUB_COLOR[1], SUB_COLOR[2], SUB_COLOR[3] )
+    -- Align the label left and vertically centered
+    subTitle.anchorX = 0
+    subTitle.x = 40
+    subTitle.y = 36
     
     local rowSprite = display.newSprite( row, sprite_sheet, alien_types[index].options )
-    rowSprite.x = 20
-    rowSprite.y = 20
+    rowSprite.x = 25
+    rowSprite.y = 25
     rowSprite:play()
+    
+    local arrow = display.newText( row, ">", 0, 0, "04B03", 24 )
+    arrow:setFillColor( NAME_COLOR[1], NAME_COLOR[2], NAME_COLOR[3] )
+    arrow.x = display.contentWidth - 12
+    arrow.y = 25
 end 
 
 local function onRowTouch( event )
 	print( event.phase )
 	if event.phase == "release" then 
 		local data = alien_types[event.target.index]
-		storyboard.gotoScene( "alien-details", {effect="slideUp", time=400, params={data=data}} )
+		storyboard.gotoScene( "scenes.alien-details", {effect="slideUp", time=400, params={data=data}} )
 	end 
 end
 
@@ -56,7 +71,7 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-	sprite_sheet = graphics.newImageSheet( "Alien-All.png", {width=34, height=34, numFrames=80} )
+	sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )
 	
 	local list = widget.newTableView( {
 		left = 0,
@@ -66,6 +81,8 @@ function scene:createScene( event )
 		onRowRender = onRowRender,
 		onRowTouch = onRowTouch,
 		listener = scrollListener,
+		backgroundColor = { 0.3, 0.3, 0.3 },
+		noLines = true,
 		scrollBarOptions = {
 			sheet = scrollBarSheet,
 			topFrame = 1,
@@ -77,7 +94,10 @@ function scene:createScene( event )
 	group:insert( list )
 	
 	for i = 1, #alien_types do 
-		list:insertRow( {} )
+		list:insertRow( {
+			rowColor=ROW_COLOR,
+			rowHeight=50
+		} )
 	end
 
 	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )

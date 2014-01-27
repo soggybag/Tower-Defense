@@ -3,7 +3,7 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local sprite_sheet = graphics.newImageSheet( "missiles.png", require( "missiles" ).getSheetOptions() )
+local sprite_sheet = graphics.newImageSheet( "images/missiles.png", require( "lib.missiles" ).getSheetOptions() )
 
 local bullet_type_array = { 
 							{start=1, count=1},

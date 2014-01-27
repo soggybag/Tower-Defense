@@ -2,10 +2,10 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local grid = require( "grid" )
-local people = require( "people" )  
+local grid = require( "lib.grid" )
+local people = require( "lib.people" )  
 -----------------------------------------------------------------------------------------
-local sprite_sheet = graphics.newImageSheet( "Alien-All.png", {width=34, height=34, numFrames=80} )
+local sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )
 -----------------------------------------------------------------------------------------
 
 -- local alien_type_array = require( "dmc_autostore" ).data.aliens

@@ -25,7 +25,7 @@ local game_over_text
 local message_text
 
 local function tap_back( event )
-	storyboard.gotoScene( "home", {effect="slideDown", time=400} )
+	storyboard.gotoScene( "scenes.home", {effect="slideDown", time=400} )
 end 
 
 -- Called when the scene's view does not exist:

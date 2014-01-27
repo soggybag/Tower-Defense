@@ -7,10 +7,10 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local alien = require( "alien" )
-local bullet_manager = require( "bullet_manager" )
+local alien = require( "lib.alien" )
+local bullet_manager = require( "lib.bullet_manager" )
 
-local sprite_sheet = graphics.newImageSheet( "explosion-4.png", require("explosion-4").getSheetOptions() )
+local sprite_sheet = graphics.newImageSheet( "images/explosion-4.png", require("lib.explosion-4").getSheetOptions() )
 
 local explosion_type_array = {
 	{start=1, count=13},	-- Small Explosion	

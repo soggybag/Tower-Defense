@@ -3,9 +3,9 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local energy = require( "energy" )
-local defense = require( "defense" )
-local defense_button = require( "defense_button" )
+local energy = require( "lib.energy" )
+local defense = require( "lib.defense" )
+local defense_button = require( "lib.defense_button" )
 
 local defense_button_array = {}
 local index = 1

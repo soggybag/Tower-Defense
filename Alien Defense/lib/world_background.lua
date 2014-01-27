@@ -2,12 +2,12 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local worlds = require( "worlds" )
+local worlds = require( "lib.worlds" )
 -----------------------------------------------------------------------------------------
 
 local function make( world_index )
 	local group = display.newGroup()
-	local sky = display.newImageRect( group, "Background-2.png", 360, 570 )
+	local sky = display.newImageRect( group, "images/Background-2.png", 360, 570 )
 	
 	local color = worlds.get_color_at_index( world_index )
 	sky:setFillColor( color.r, color.g, color.b )

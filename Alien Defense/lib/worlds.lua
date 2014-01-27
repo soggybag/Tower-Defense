@@ -1,4 +1,5 @@
-local names = require( "names" )
+local names = require( "lib.names" )
+local data_store = require("lib.data_store")
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
@@ -26,12 +27,23 @@ local function random_planet_id()
 end 
 
 -----------------------------------------------------------------------------------------
+local function save_worlds()
+
+end 
+M.save_worlds = save_worlds
+
 local function add()
 	local world = {}
 	world.population = math.random( MIN_POP, MAX_POP )
 	world.color = {r=math.random(), g=math.random(), b=math.random()}
+	world.front_color = {r=math.random(), g=math.random(), b=math.random()}
+	world.front = math.random(25)
+	world.back = math.random(25)
 	world.name = names.random_name()
+	local modes = {"add", "screen", "dst"}
+	world.mode = modes[math.random(#modes)]
 	world_array[ #world_array + 1 ] = world
+
 	return world
 end 
 M.add = add 
@@ -68,7 +80,10 @@ M.iterate_worlds = iterate_worlds
 
 local function make( index )
 	local world = display.newGroup()
+
 	local world_sprite = display.newCircle( 0, 0, WORLD_RADIUS )
+
+
 	
 	world:insert( world_sprite )
 	world_sprite:setFillColor( word_array[index].color.r, word_array[index].color.g, word_array[index].color.b )
@@ -81,6 +96,23 @@ local function get_worlds()
 	return worlds_array
 end 
 M.get_worlds = get_worlds
+
+
+local function init()
+	world_array = data_store.loadTable()
+
+	print( "Loading data:", world_array )
+
+	if world_array == nil then 
+		-- initialize settings
+		world_array = {}
+		for i = 1, 10 do 
+			world_array[ #world_array + 1 ] = add()
+		end
+		saveTable( world_array )
+	end 
+end 
+init()
 -----------------------------------------------------------------------------------------
 return M
 
