@@ -4,18 +4,16 @@ local M = {}
 -----------------------------------------------------------------------------------------
 local grid = require( "lib.grid" )
 local people = require( "lib.people" )  
+local sprite_manager = require( "lib.sprite-manager" )
 -----------------------------------------------------------------------------------------
-local sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )
------------------------------------------------------------------------------------------
-
 -- local alien_type_array = require( "dmc_autostore" ).data.aliens
 
 local alien_type_array = { 
-	{name="blue", 	speed=0.2, hits=5, damage=0.1, options={frames={1,2,3,2,1,4,5,6,7,6,5,4,11,12,13,14,13,12,11,4,8,9,10,9,8}, time=2000} },
-	{name="red",  	speed=1.0, hits=3, damage=0.1, options={frames={16,17,18,19,18,17,16,21,16,25}, time=1000} },
-	{name="green", 	speed=0.7, hits=4, damage=0.1, options={frames={31,32,33,34,35,36,37,38,39,40,41,42,43,44,45}, time=1000} },
-	{name="black", 	speed=0.3, hits=7, damage=0.1, options={frames={51,52,53,54,55,54,53,52,51,56,57,56,51,58,59,58,51}, time=2000} },
-	{name="pink", 	speed=2.0, hits=2, damage=0.1, options={frames={66,67,68,69,70,69,68,67,66,71,66,72,66,73,66,74,75,76,75,74}, time=2400} }
+	{id="alien_blue_1", name="blue", 	speed=0.2, hits=5, damage=0.1},
+	{id="alien_red_1", name="red",  	speed=1.0, hits=3, damage=0.1},
+	{id="alien_green_1", name="green", 	speed=0.7, hits=4, damage=0.1},
+	{id="alien_black", name="black", 	speed=0.3, hits=7, damage=0.1},
+	{id="alien_pink_1", name="pink", 	speed=2.0, hits=2, damage=0.1}
 } 
 
 -----------------------------------------------------------------------------------------
@@ -30,13 +28,12 @@ local destroyed_sound
 local function make()
 	-- local n = math.random( alien_type_array:len() )
 	local n = math.random( #alien_type_array )
-	print( n )
 	-- local n = 1
-	local alien = display.newSprite( sprite_sheet, alien_type_array[n].options )
+	local alien = sprite_manager.get_sprite_by_name( alien_type_array[n].id )
 	
 	alien:play()
 	
-	alien_view:insert( alien )
+	alien_view:insert( 1, alien )
 	alien.speed 	= alien_type_array[n].speed
 	alien.name 		= alien_type_array[n].name
 	alien.hits 		= alien_type_array[n].hits
@@ -93,7 +90,7 @@ local function update()
 			
 			else -- move alien 
 				if alien:move() then -- Move and check if this has moved off screen 
-					people.make_alien( alien_type_array[ alien.alien_type ].options ) -- Make alien that will eat some people 
+					people.make_alien( alien_type_array[ alien.alien_type ].id ) -- Make alien that will eat some people 
 					table.remove( alien_array, i )	-- remove this alien from the table
 					alien:remove()	-- remove this alien from the display group
 				end

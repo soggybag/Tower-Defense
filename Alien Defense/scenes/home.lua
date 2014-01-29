@@ -68,21 +68,18 @@ end
 function scene:createScene( event )
 	local group = self.view
 
-	-- local sprite_sheet = graphics.newImageSheet( "Aliens-32.png", require( "Aliens-32" ).getSheetOptions() )	
-	local sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )	
-	local base_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
+	-- Load Sprite Manager
+	local sprite_manager = require( "lib.sprite-manager" )
 	
-	
+	-- Make PLAY label text
 	local play_text = display.newText( group, "PLAY", 0, 0, "04B03", 32 )
 	play_text.x = display.contentCenterX
 	play_text.y = display.contentCenterY - 80
 	
-	local back = display.newRoundedRect( 0, 0, 72, 72, 12 )
-	back:setFillColor( 0.8, 0.8, 0.8 )
-	back.strokeWidth = 4
-	back:setStrokeColor( 0.7, 0.7, 0.7 )
+	-- Make play button
+	local back = sprite_manager.get_sprite_by_name( "button_72" )
 	
-	local sprite = display.newSprite( sprite_sheet, {frames={1,1,1,2,3,3,2,1,6,7,7,7,6,1,1,1,4,5,5,5,4,1,1,1,11,12,13,12,11, 8,9,10,9,8,9,10,9,8}, time=2500} )
+	local sprite = sprite_manager.get_sprite_by_name( "alien_blue_1" )
 	sprite:play()
 	
 	-- start_button = display.newGroup()
@@ -95,17 +92,16 @@ function scene:createScene( event )
 	
 	group:insert( start_button )
 	
+	-- Make edit text label
 	local edit_text = display.newText( group, "- EDIT -", 0, 0, "04B03", 16 )
 	edit_text.x = display.contentCenterX
 	edit_text.y = display.contentCenterY + 80
 	
-	alien_button = display.newGroup()
-	local alien_back = display.newRoundedRect( 0, 0, 36, 36, 6 )
-	alien_back:setFillColor( 0.8, 0.8, 0.8 )
-	alien_back.strokeWidth = 2
-	alien_back:setStrokeColor( 0.7, 0.7, 0.7 )
 	
-	local alien_sprite = display.newSprite( sprite_sheet, {frames={31,32,33,34,35,36,37,38,39,40,41,42,43,44,45, 46,47,48,49,50,49,48,47,46}, time=2500} )
+	-- make Alien button
+	alien_button = display.newGroup()
+	local alien_back = sprite_manager.get_sprite_by_name( "button_40" )
+	local alien_sprite = sprite_manager.get_sprite_by_name( "alien_red_1" )
 	alien_sprite:play()
 	alien_button:insert( alien_back )
 	alien_button:insert( alien_sprite )
@@ -115,13 +111,10 @@ function scene:createScene( event )
 	
 	group:insert( alien_button )
 	
+	-- Make Satellite button
 	base_button = display.newGroup()
-	local base_back = display.newRoundedRect( 0, 0, 36, 36, 6 )
-	base_back:setFillColor( 0.8, 0.8, 0.8 )
-	base_back.strokeWidth = 2
-	base_back:setStrokeColor( 0.7, 0.7, 0.7 )
-	
-	local base_sprite = display.newSprite( base_sheet, {frames={1}, time=2500} )
+	local base_back = sprite_manager.get_sprite_by_name( "button_40" )
+	local base_sprite = sprite_manager.get_sprite_by_name( "satellite_1" )
 	base_sprite:play()
 	base_button:insert( base_back )
 	base_button:insert( base_sprite )
@@ -131,6 +124,7 @@ function scene:createScene( event )
 	
 	group:insert( base_button )
 	
+	-- Make send info button
 	send_button = display.newText( "SEND INFO", 0, 0, "04B03", 24 )
 	send_button.anchorX = 1
 	send_button.anchorY = 0
@@ -139,15 +133,12 @@ function scene:createScene( event )
 	send_button:setFillColor( 0.5, 0.5, 0.5 )
 	group:insert( send_button )
 	
+	-- Make Worlds button
 	worlds_button = display.newGroup()
-	local worlds_back = display.newRoundedRect( 0, 0, 36, 36, 6 )
-	worlds_back:setFillColor( 0.8, 0.8, 0.8 )
-	worlds_back.strokeWidth = 2
-	worlds_back:setStrokeColor( 0.7, 0.7, 0.7 )
+	local worlds_back = sprite_manager.get_sprite_by_name( "button_40" )
 	worlds_button:insert( worlds_back )
-	worlds_sprite = display.newCircle( 0, 0, 15 )
+	worlds_sprite = sprite_manager.get_random_world()
 	worlds_button:insert( worlds_sprite )
-	worlds_sprite:setFillColor( math.random(), math.random(), math.random() )
 	worlds_button.y = display.contentCenterY + 144
 	
 	group:insert( worlds_button )

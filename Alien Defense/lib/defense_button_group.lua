@@ -59,7 +59,7 @@ local function make_defense_buttons()
 	for i = 1, #defense_type_array do 
 		local button = defense_button.make( defense_type_array[i].name, 
 											defense_type_array[i].cost, 
-											defense_type_array[i].frame )
+											defense_type_array[i].id )
 		button.y = ( i - 1 ) * ( button.contentHeight + 10 )
 		defense_button_group:insert( button )
 		button:addEventListener( "touch", on_touch )

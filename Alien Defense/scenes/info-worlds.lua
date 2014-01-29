@@ -3,9 +3,10 @@
 -- scenetemplate.lua
 --
 ----------------------------------------------------------------------------------
-local widget = require( "widget" )
-local worlds = require( "lib.worlds" )
-local storyboard = require( "storyboard" )
+local widget 			= require( "widget" )
+local worlds 			= require( "lib.worlds" )
+local storyboard 		= require( "storyboard" )
+local sprite_manager 	= require( "lib.sprite-manager" )
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
 
@@ -45,10 +46,10 @@ local function onRowRender( event )
     pop_text.y = 36
     pop_text:setFillColor( SUB_COLOR[1], SUB_COLOR[2], SUB_COLOR[3] )
     
-    local world_sprite = display.newCircle( row, 0, 0, 16 )
-    world_sprite:setFillColor( world_array[index].color.r, world_array[index].color.g, world_array[index].color.b )
+    local world_sprite = sprite_manager.get_world_sprite( index )
     world_sprite.x = rowHeight / 2
     world_sprite.y = rowHeight / 2
+    row:insert( world_sprite )
     
     local arrow = display.newText( row, ">", 0, 0, "04B03", 24 )
     arrow:setFillColor( NAME_COLOR[1], NAME_COLOR[2], NAME_COLOR[3] )
@@ -97,9 +98,8 @@ function scene:createScene( event )
 	end
 	
 
-	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )
+	home_button = sprite_manager.get_sprite_by_name( "button_40" )
 	group:insert( home_button )
-	home_button:setFillColor( 0.8, 0.8, 0.8 )
 	home_button.x = display.contentWidth - 30
 	home_button.y = display.contentHeight - 30
 	

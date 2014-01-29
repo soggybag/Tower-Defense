@@ -2,9 +2,8 @@
 -------------------------------------------------------------------------------
 local M = {}
 -------------------------------------------------------------------------------
-
+local sprite_manager = require( "lib.sprite-manager" )
 ------------------------------------------------------------------------------
-local sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )
 local eat_person_sound
 -------------------------------------------------------------------------------
 local PEOPLE_SIZE = {width=3, height=6}
@@ -39,7 +38,7 @@ local function eat_person()
 end 
 
 local function person()
-	local p = display.newRect( 0, 0, PEOPLE_SIZE.width, PEOPLE_SIZE.height )
+	local p = sprite_manager.get_random_person()
 	if math.random( 2 ) > 1 then 
 		p.direction = 1
 	else 
@@ -57,8 +56,9 @@ local function person()
 	return p 
 end 
 
-local function make_alien( alien_options )
-	local a = display.newSprite( sprite_sheet, alien_options )
+local function make_alien( alien_id )
+	local a = sprite_manager.get_sprite_by_name( alien_id )
+	
 	a:play()
 	people_view:insert( a )
 	people_alien_array[ #people_alien_array+1 ] = a

@@ -5,18 +5,17 @@ local M = {}
 -----------------------------------------------------------------------------------------
 local energy 			= require( "lib.energy" )
 local bullet_manager 	= require( "lib.bullet_manager" )
-
-local sprite_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
-
+local sprite_manager	= require( "lib.sprite-manager" )
+-----------------------------------------------------------------------------------------
 local selected_defense = 1
 local defense_array = {}
 
 local defense_type_array = {
-			{name="04B",	rof=1000,	damage=1,	hits=10, cost=40, bullet_sprite=1, sprite={start=1, count=1}, frame=1 },
-			{name="X97",	rof=500,	damage=0.5,	hits=10, cost=50, bullet_sprite=2, sprite={start=2, count=1}, frame=2 },
-			{name="R37",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite=3, sprite={start=3, count=1}, frame=3 },
-			{name="8UL",	rof=1500,	damage=0.5,	hits=10, cost=70, bullet_sprite=4, sprite={start=4, count=1}, frame=4 }, 	-- Each line ends with a comma
-			{name="G70",	rof=250,	damage=0.3, hits=10, cost=20, bullet_sprite=5, sprite={start=5, count=1}, frame=5 }  	-- No comma on the last line
+			{id="satellite_1", name="04B",	rof=1000,	damage=1,	hits=10, cost=40, bullet_sprite="missile_1", sprite={start=1, count=1}, frame=1 },
+			{id="satellite_2", name="X97",	rof=500,	damage=0.5,	hits=10, cost=50, bullet_sprite="missile_2", sprite={start=2, count=1}, frame=2 },
+			{id="satellite_3", name="R37",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_3", sprite={start=3, count=1}, frame=3 },
+			{id="satellite_4", name="8UL",	rof=1500,	damage=0.5,	hits=10, cost=70, bullet_sprite="missile_4", sprite={start=4, count=1}, frame=4 }, 	-- Each line ends with a comma
+			{id="satellite_5", name="G70",	rof=250,	damage=0.3, hits=10, cost=20, bullet_sprite="missile_5", sprite={start=5, count=1}, frame=5 }  	-- No comma on the last line
 		}
 
 
@@ -32,7 +31,9 @@ end
 local function make( tile )
 	local new_defense = nil
 	if energy.get_energy( defense_type_array[selected_defense].cost ) then 
-		local new_defense = display.newSprite( sprite_sheet, defense_type_array[selected_defense].sprite )
+		local new_defense = sprite_manager.get_sprite_by_name( defense_type_array[selected_defense].id )
+		
+		new_defense:play()
 	
 		new_defense.tile 			= tile
 		new_defense.rof 		 	= defense_type_array[selected_defense].rof

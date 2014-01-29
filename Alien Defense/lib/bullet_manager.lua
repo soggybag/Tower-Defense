@@ -3,19 +3,10 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local sprite_sheet = graphics.newImageSheet( "images/missiles.png", require( "lib.missiles" ).getSheetOptions() )
-
-local bullet_type_array = { 
-							{start=1, count=1},
-							{start=2, count=1},
-							{start=3, count=1},
-							{start=17, count=3},
-							{start=7, count=5}
-						}
-
+local sprite_manager = require( "lib.sprite-manager" )
+-----------------------------------------------------------------------------------------
 local bullet_array = {}
 local bullet_view
-
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -25,8 +16,8 @@ end
 M.set_view = set_view
 
 local function make( start_x, start_y, damage, bullet_type )
-	print( start_x, start_y, damage, bullet_type )
-	local bullet = display.newSprite( sprite_sheet, bullet_type_array[bullet_type] )
+	local bullet = sprite_manager.get_sprite_by_name( bullet_type )
+	
 	bullet:play()
 	bullet.x = start_x
 	bullet.y = start_y - 15

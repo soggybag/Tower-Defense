@@ -9,9 +9,8 @@ local M = {}
 -----------------------------------------------------------------------------------------
 local alien = require( "lib.alien" )
 local bullet_manager = require( "lib.bullet_manager" )
-
-local sprite_sheet = graphics.newImageSheet( "images/explosion-4.png", require("lib.explosion-4").getSheetOptions() )
-
+local sprite_manager = require( "lib.sprite-manager" )
+-----------------------------------------------------------------------------------------
 local explosion_type_array = {
 	{start=1, count=13},	-- Small Explosion	
 	{start=14, count=13}	-- Larger explosion
@@ -22,7 +21,7 @@ local collision_view
 
 -----------------------------------------------------------------------------------------
 local function make_explosion( x, y, explosion_type )
-	local explosion = display.newSprite( sprite_sheet, explosion_type_array[explosion_type] )
+	local explosion = sprite_manager.get_sprite_by_name( explosion_type )
 	collision_view:insert( explosion )
 	explosion.x = x
 	explosion.y = y
@@ -37,7 +36,7 @@ end
 local function make_explosion_multi( x, y, n )
 	for i = 1, n do 
 		timer.performWithDelay( 100 * i, function( event ) 
-			make_explosion( x + math.random( 20 ) - 10, y + math.random( 20 ) - 10, 1 )
+			make_explosion( x + math.random( 20 ) - 10, y + math.random( 20 ) - 10, "explosion_small" )
 		end )
 	end 
 end 
@@ -68,10 +67,10 @@ local function update()
 			if hit_test( bullet, alien ) then 
 				if alien:hit( bullet.damage ) then 
 					table.remove( alien_array, a )
-					make_explosion( bullet.x, bullet.y, 2 )
+					make_explosion( bullet.x, bullet.y, "explosion_big" )
 					make_explosion_multi( bullet.x, bullet.y, 6 )
 				else
-					make_explosion( bullet.x, bullet.y, 1 )
+					make_explosion( bullet.x, bullet.y, "explosion_small" )
 				end 
 				table.remove( bullet_array, b )
 				display.remove( bullet )

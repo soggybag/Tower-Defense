@@ -6,6 +6,7 @@
 local widget = require( "widget" )
 local storyboard = require( "storyboard" )
 local alien = require( "lib.alien" )
+local sprite_manager = require( "lib.sprite-manager" ) 
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
 -- 
@@ -56,9 +57,7 @@ function scene:createScene( event )
 	back:setFillColor( 0.232, 0.245, 0.271 )
 	group:insert( back )
 	
-	sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )	
-	
-	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )
+	home_button = sprite_manager.get_sprite_by_name( "button_40" )
 	home_button.x = display.contentWidth - 30
 	home_button.y = display.contentHeight - 30
 	group:insert( home_button )
@@ -115,7 +114,7 @@ function scene:willEnterScene( event )
 	hits_slider:setValue( alien_hits / 10 * 100 )
 
 	display.remove( alien_sprite ) 
-	alien_sprite = display.newSprite( sprite_sheet, data.options )
+	alien_sprite = sprite_manager.get_sprite_by_name( data.id )
 	alien_sprite:play()
 	self.view:insert( alien_sprite )
 	alien_sprite.xScale = 2

@@ -3,9 +3,10 @@
 -- scenetemplate.lua
 --
 ----------------------------------------------------------------------------------
-local widget = require( "widget" )
-local storyboard = require( "storyboard" )
-local defense = require( "lib.defense" )
+local widget 			= require( "widget" )
+local storyboard 		= require( "storyboard" )
+local defense 			= require( "lib.defense" )
+local sprite_manager 	= require( "lib.sprite-manager" ) 
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
 -- 
@@ -66,10 +67,8 @@ function scene:createScene( event )
 	back:setFillColor( 0.232, 0.245, 0.271 )
 	group:insert( back )
 	
-	base_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
-	
-	
-	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )
+	-- Make Home button
+	home_button = sprite_manager.get_sprite_by_name( "button_40" )
 	home_button.x = display.contentWidth - 30
 	home_button.y = display.contentHeight - 30
 	group:insert( home_button )
@@ -138,7 +137,7 @@ function scene:willEnterScene( event )
 	
 	display.remove( base_sprite )
 	
-	base_sprite = display.newSprite( base_sheet, data.sprite )
+	base_sprite = sprite_manager.get_sprite_by_name( data.id )
 	base_sprite:play()
 	self.view:insert( base_sprite )
 	base_sprite.xScale = 2

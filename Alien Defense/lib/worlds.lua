@@ -20,9 +20,6 @@ local function random_planet_id()
 	for i = 1, 6 do 
 		str = str .. random_letter()
 	end 
-	
-	print( "World id:", str )
-	
 	return str
 end 
 
@@ -80,11 +77,7 @@ M.iterate_worlds = iterate_worlds
 
 local function make( index )
 	local world = display.newGroup()
-
 	local world_sprite = display.newCircle( 0, 0, WORLD_RADIUS )
-
-
-	
 	world:insert( world_sprite )
 	world_sprite:setFillColor( word_array[index].color.r, word_array[index].color.g, word_array[index].color.b )
 	
@@ -93,7 +86,7 @@ end
 M.make = make
 
 local function get_worlds()
-	return worlds_array
+	return world_array
 end 
 M.get_worlds = get_worlds
 

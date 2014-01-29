@@ -2,19 +2,17 @@
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
-local sprite_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
+local sprite_manager = require( "lib.sprite-manager" )
 -----------------------------------------------------------------------------------------
-local function make( name, cost, frame )
+local function make( name, cost, id )
 	local button_group = display.newGroup()
 	button_group.enabled = false 
 	button_group.name = name
 	button_group.cost = cost
 	
-	local button = display.newRoundedRect( 0, 0, 40, 40, 6 )
-	button:setFillColor( 0.5, 0.5, 0.5, 0.5 )
-	button:setStrokeColor( 0.8, 0.8, 0.8, 0.8 )
+	local button = sprite_manager.get_sprite_by_name( "button_40" )
 	
-	local sprite = display.newImage( sprite_sheet, frame )
+	local sprite = sprite_manager.get_sprite_by_name( id )
 	
 	local name_text = display.newText( name, 0, 0, "04B03", 16 ) 
 	name_text.x = 0	
@@ -46,11 +44,13 @@ local function make( name, cost, frame )
 	end
 	
 	function button_group:select()
-		self.button.strokeWidth = 3
+		-- self.button.strokeWidth = 3
+		self.button:setFillColor( 1, 0, 0 )
 	end 
 	
 	function button_group:deselect()
-		self.button.strokeWidth = 0
+		-- self.button.strokeWidth = 0
+		self.button:setFillColor( 1, 1, 1 )
 	end 
 	
 	function button_group:destroy()

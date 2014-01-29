@@ -5,6 +5,7 @@
 ----------------------------------------------------------------------------------
 local widget = require( "widget" )
 local defense_types = require( "lib.defense" ).get_types()
+local sprite_manager = require( "lib.sprite-manager" )
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
@@ -99,9 +100,8 @@ function scene:createScene( event )
 		} )
 	end
 
-	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )
+	home_button = sprite_manager.get_sprite_by_name( "button_40" )
 	group:insert( home_button )
-	home_button:setFillColor( 0.8, 0.8, 0.8 )
 	home_button.x = display.contentWidth - 30
 	home_button.y = display.contentHeight - 30
 	

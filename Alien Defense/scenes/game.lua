@@ -20,6 +20,7 @@ local collision_manager = require( "lib.collision_manager" )
 local defense			= require( "lib.defense" )
 local people 			= require( "lib.people" )
 local worlds			= require( "lib.worlds" )
+local sprite_manager	= require( "lib.sprite-manager" )
 -----------------------------------------------------------------------------------------
 local controls_group
 local defense_group
@@ -83,6 +84,7 @@ function scene:createScene( event )
 	if event.params ~= nil then
 		world_index = event.params.world_index
 	end  
+	
 	background = require( "lib.world_background" ).make( world_index )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
@@ -96,7 +98,7 @@ function scene:createScene( event )
 	bullet_manager.set_view( defense_group ) 
 	alien.set_view( defense_group )
 	
-	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )
+	home_button = sprite_manager.get_sprite_by_name( "button_40" )
 	home_button.x = display.contentWidth - 30
 	home_button.y = display.contentHeight - 30
 	

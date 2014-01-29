@@ -6,6 +6,7 @@
 local widget = require( "widget" )
 local alien_types = require( "lib.alien" ).get_types()
 local storyboard = require( "storyboard" )
+local sprite_manager = require( "lib.sprite-manager" )
 local scene = storyboard.newScene()
 ----------------------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ local function onRowRender( event )
     local rowHeight = row.contentHeight
     local rowWidth = row.contentWidth 
 
+	-- Make row title
     local rowTitle = display.newText( row, string.upper(alien_types[index].name), 0, 0, "04B03", 24 )
     rowTitle:setFillColor( NAME_COLOR[1], NAME_COLOR[2], NAME_COLOR[3] )
     -- Align the label left and vertically centered
@@ -41,14 +43,17 @@ local function onRowRender( event )
     local str = " SPEED: ".. alien_types[index].speed 
 	str = str .. " HITS: ".. alien_types[index].hits
 	
-	 local subTitle = display.newText( row, str, 0, 0, "04B03", 16 )
+	-- make row sub text
+	local subTitle = display.newText( row, str, 0, 0, "04B03", 16 )
     subTitle:setFillColor( SUB_COLOR[1], SUB_COLOR[2], SUB_COLOR[3] )
     -- Align the label left and vertically centered
     subTitle.anchorX = 0
     subTitle.x = 40
     subTitle.y = 36
     
-    local rowSprite = display.newSprite( row, sprite_sheet, alien_types[index].options )
+    -- Make row sprite
+    local rowSprite = sprite_manager.get_sprite_by_name( alien_types[index].id )
+    row:insert( rowSprite )
     rowSprite.x = 25
     rowSprite.y = 25
     rowSprite:play()
@@ -70,8 +75,6 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-	
-	sprite_sheet = graphics.newImageSheet( "images/Alien-All.png", {width=34, height=34, numFrames=80} )
 	
 	local list = widget.newTableView( {
 		left = 0,
@@ -100,7 +103,7 @@ function scene:createScene( event )
 		} )
 	end
 
-	home_button = display.newRoundedRect( 0, 0, 40, 40, 6 )
+	home_button = sprite_manager.get_sprite_by_name( "button_40" ) 
 	group:insert( home_button )
 	home_button:setFillColor( 0.8, 0.8, 0.8 )
 	home_button.x = display.contentWidth - 30
