@@ -20,6 +20,7 @@ local SUB_COLOR = {0.8,0.8,0.8}
 -----------------------------------------------------------------------------------------
 local function tap_home( event ) 
 	storyboard.gotoScene( "scenes.home", {effect="slideDown", time=400} )
+	return true
 end 
 
 local function onRowRender( event )
@@ -49,7 +50,9 @@ local function onRowRender( event )
     subTitle.x = 50
     subTitle.y = 36
     
-    local rowSprite = display.newSprite( row, sprite_sheet, defense_types[index].sprite )
+    local rowSprite = sprite_manager.get_sprite_by_name( defense_types[index].id )
+    row:insert( rowSprite )
+    rowSprite:play()
     rowSprite.x = 25
     rowSprite.y = 25
     
@@ -70,8 +73,6 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-	
-	sprite_sheet = graphics.newImageSheet( "images/Satellites.png", {width=34, height=34, numFrames=25} )
 	
 	local list = widget.newTableView( {
 		left = 0,

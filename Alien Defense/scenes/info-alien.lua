@@ -21,6 +21,7 @@ local SUB_COLOR = {0.8,0.8,0.8}
 -----------------------------------------------------------------------------------------
 local function tap_home( event ) 
 	storyboard.gotoScene( "scenes.home", {effect="slideDown", time=400} )
+	return true
 end 
 
 local function onRowRender( event )

@@ -49,6 +49,7 @@ end
 local function tap_home( event ) 
 	print( "Game Tap Home" )
 	storyboard.gotoScene( "scenes.home", {effect="slideLeft", time=400} )
+	return true
 end 
 
 local function on_game_over( event )

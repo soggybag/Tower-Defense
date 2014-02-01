@@ -30,6 +30,7 @@ local sprite_sheet
 ---------------------------------------------------------------------------------
 local function tap_home( event ) 
 	storyboard.gotoScene( "scenes.info-alien", {effect="slideDown", time=400} )
+	return true
 end 
 
 local function on_speed_slider( event ) 

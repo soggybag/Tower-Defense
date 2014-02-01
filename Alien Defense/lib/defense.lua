@@ -14,8 +14,12 @@ local defense_type_array = {
 			{id="satellite_1", name="04B",	rof=1000,	damage=1,	hits=10, cost=40, bullet_sprite="missile_1", sprite={start=1, count=1}, frame=1 },
 			{id="satellite_2", name="X97",	rof=500,	damage=0.5,	hits=10, cost=50, bullet_sprite="missile_2", sprite={start=2, count=1}, frame=2 },
 			{id="satellite_3", name="R37",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_3", sprite={start=3, count=1}, frame=3 },
-			{id="satellite_4", name="8UL",	rof=1500,	damage=0.5,	hits=10, cost=70, bullet_sprite="missile_4", sprite={start=4, count=1}, frame=4 }, 	-- Each line ends with a comma
-			{id="satellite_5", name="G70",	rof=250,	damage=0.3, hits=10, cost=20, bullet_sprite="missile_5", sprite={start=5, count=1}, frame=5 }  	-- No comma on the last line
+			{id="satellite_4", name="8UL",	rof=1500,	damage=0.5,	hits=10, cost=70, bullet_sprite="missile_4", sprite={start=4, count=1}, frame=4 }, 	
+			{id="satellite_5", name="G70",	rof=250,	damage=0.3, hits=10, cost=20, bullet_sprite="missile_5", sprite={start=5, count=1}, frame=5 },
+			{id="satellite_6", name="Z44",	rof=1000,	damage=1,	hits=10, cost=40, bullet_sprite="missile_6", sprite={start=1, count=1}, frame=1 },
+			{id="satellite_7", name="9QU",	rof=500,	damage=0.5,	hits=10, cost=50, bullet_sprite="missile_7", sprite={start=2, count=1}, frame=2 },
+			{id="satellite_8", name="PPX",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_8", sprite={start=3, count=1}, frame=3 },
+			{id="satellite_9", name="99T",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_9", sprite={start=3, count=1}, frame=3 }
 		}
 
 

@@ -24,18 +24,22 @@ local worlds_button
 
 local function tap_start( event ) 
 	storyboard.gotoScene( "scenes.game", {effect="slideRight", time=400} )
+	return true
 end 
 
 local function tap_alien( event ) 
 	storyboard.gotoScene( "scenes.info-alien", {effect="slideUp", time=400} )
+	return true
 end 
 
 local function tap_base( event ) 
 	storyboard.gotoScene( "scenes.info-base", {effect="slideUp", time=400} )
+	return true
 end 
 
 local function tap_worlds( event ) 
 	storyboard.gotoScene( "scenes.info-worlds", {effect="slideUp", time=400} )
+	return true
 end 
 
 local function tap_send( event )
@@ -59,6 +63,7 @@ local function tap_send( event )
 	-- native.showAlert( "Email sent", "Data sent via email" )
 	print( options.subject )
 	print( options.body )
+	return true
 end 
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -79,7 +84,7 @@ function scene:createScene( event )
 	-- Make play button
 	local back = sprite_manager.get_sprite_by_name( "button_72" )
 	
-	local sprite = sprite_manager.get_sprite_by_name( "alien_blue_1" )
+	local sprite = sprite_manager.get_sprite_by_name( "alien_16" )
 	sprite:play()
 	
 	-- start_button = display.newGroup()
@@ -101,7 +106,7 @@ function scene:createScene( event )
 	-- make Alien button
 	alien_button = display.newGroup()
 	local alien_back = sprite_manager.get_sprite_by_name( "button_40" )
-	local alien_sprite = sprite_manager.get_sprite_by_name( "alien_red_1" )
+	local alien_sprite = sprite_manager.get_sprite_by_name( "alien_1" )
 	alien_sprite:play()
 	alien_button:insert( alien_back )
 	alien_button:insert( alien_sprite )

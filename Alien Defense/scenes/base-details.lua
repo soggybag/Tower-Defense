@@ -33,6 +33,7 @@ local base_sheet
 ---------------------------------------------------------------------------------
 local function tap_home( event ) 
 	storyboard.gotoScene( "scenes.info-base", {effect="slideDown", time=400} )
+	return true
 end 
 
 local function on_rof_slider( event ) 

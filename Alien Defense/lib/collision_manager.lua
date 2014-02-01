@@ -11,11 +11,6 @@ local alien = require( "lib.alien" )
 local bullet_manager = require( "lib.bullet_manager" )
 local sprite_manager = require( "lib.sprite-manager" )
 -----------------------------------------------------------------------------------------
-local explosion_type_array = {
-	{start=1, count=13},	-- Small Explosion	
-	{start=14, count=13}	-- Larger explosion
-}
-
 local collision_view
 
 

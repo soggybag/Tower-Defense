@@ -9,11 +9,22 @@ local sprite_manager = require( "lib.sprite-manager" )
 -- local alien_type_array = require( "dmc_autostore" ).data.aliens
 
 local alien_type_array = { 
-	{id="alien_blue_1", name="blue", 	speed=0.2, hits=5, damage=0.1},
-	{id="alien_red_1", name="red",  	speed=1.0, hits=3, damage=0.1},
-	{id="alien_green_1", name="green", 	speed=0.7, hits=4, damage=0.1},
-	{id="alien_black", name="black", 	speed=0.3, hits=7, damage=0.1},
-	{id="alien_pink_1", name="pink", 	speed=2.0, hits=2, damage=0.1}
+	{id="alien_1", name="blue 1", 	speed=0.2, hits=5, damage=0.1},
+	{id="alien_2", name="bomb",  	speed=1.0, hits=3, damage=0.1},
+	{id="alien_3", name="blue 2", 	speed=0.7, hits=4, damage=0.1},
+	{id="alien_4", name="blue 3", 	speed=0.3, hits=7, damage=0.1},
+	{id="alien_5", name="blue 4", 	speed=2.0, hits=2, damage=0.1},
+	{id="alien_6", name="gray 1", 	speed=2.0, hits=2, damage=0.1},
+	{id="alien_7", name="pink 1", 	speed=0.2, hits=5, damage=0.1},
+	{id="alien_8", name="green 1",  speed=1.0, hits=3, damage=0.1},
+	{id="alien_9", name="green 2", 	speed=0.7, hits=4, damage=0.1},
+	{id="alien_10", name="or 1", 	speed=0.3, hits=7, damage=0.1},
+	{id="alien_11", name="or 2", 	speed=2.0, hits=2, damage=0.1},
+	{id="alien_12", name="purp 1", 	speed=2.0, hits=2, damage=0.1},
+	{id="alien_13", name="pink 2", 	speed=0.2, hits=5, damage=0.1},
+	{id="alien_14", name="red 1",  	speed=1.0, hits=3, damage=0.1},
+	{id="alien_15", name="red 2", 	speed=0.7, hits=4, damage=0.1},
+	{id="alien_16", name="yell 3", 	speed=0.3, hits=7, damage=0.1}
 } 
 
 -----------------------------------------------------------------------------------------
