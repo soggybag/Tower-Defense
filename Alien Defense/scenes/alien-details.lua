@@ -58,7 +58,15 @@ function scene:createScene( event )
 	back:setFillColor( 0.232, 0.245, 0.271 )
 	group:insert( back )
 	
-	home_button = sprite_manager.get_sprite_by_name( "button_40" )
+	home_button = widget.newButton( {
+		onRelease=tap_home,
+		sheet=sprite_manager.sprite_sheet,
+		defaultFrame=sprite_manager.get_frames_by_name( "button_40" )[1],
+		overFrame=sprite_manager.get_frames_by_name( "button_40" )[2],
+		label="<",
+		font="04B03",
+		fontSize=24
+	} )
 	home_button.x = display.contentWidth - 30
 	home_button.y = display.contentHeight - 30
 	group:insert( home_button )
@@ -133,7 +141,6 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	home_button:addEventListener( "tap", tap_home )
 end
 
 
@@ -141,7 +148,6 @@ end
 function scene:exitScene( event )
 	local group = self.view
 	alien.set_speed_hits_by_name( alien_name, alien_speed, alien_hits )
-	home_button:removeEventListener( "tap", tap_home )
 end
 
 

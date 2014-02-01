@@ -32,6 +32,7 @@ M.save_worlds = save_worlds
 local function add()
 	local world = {}
 	world.population = math.random( MIN_POP, MAX_POP )
+	world.tech = math.random( 1, 5 )
 	world.color = {r=math.random(), g=math.random(), b=math.random()}
 	world.front_color = {r=math.random(), g=math.random(), b=math.random()}
 	world.front = math.random(25)

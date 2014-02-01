@@ -101,13 +101,18 @@ function scene:createScene( event )
 		} )
 	end
 
-	home_button = sprite_manager.get_sprite_by_name( "button_40" )
+	home_button = widget.newButton({
+		onRelease=tap_home,
+		label="<",
+		font="04B03",
+		fontSize=24,
+		sheet=sprite_manager.sprite_sheet,
+		defaultFrame=sprite_manager.get_frames_by_name("button_40")[1],
+		overFrame=sprite_manager.get_frames_by_name("button_40")[2]
+	})
 	group:insert( home_button )
 	home_button.x = display.contentWidth - 30
 	home_button.y = display.contentHeight - 30
-	
-	
-	
 end
 
 

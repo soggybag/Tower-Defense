@@ -37,9 +37,8 @@ local end_y = display.contentHeight -- + 17
 local destroyed_sound
 -----------------------------------------------------------------------------------------
 local function make()
-	-- local n = math.random( alien_type_array:len() )
 	local n = math.random( #alien_type_array )
-	-- local n = 1
+	-- local n = 2
 	local alien = sprite_manager.get_sprite_by_name( alien_type_array[n].id )
 	
 	alien:play()

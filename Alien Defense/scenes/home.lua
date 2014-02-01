@@ -5,6 +5,7 @@
 ----------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
+local widget = require( "widget" )
 local scene = storyboard.newScene()
 
 ----------------------------------------------------------------------------------
@@ -81,87 +82,118 @@ function scene:createScene( event )
 	play_text.x = display.contentCenterX
 	play_text.y = display.contentCenterY - 80
 	
+	---------------------------------------------------------------------------------
 	-- Make play button
-	local back = sprite_manager.get_sprite_by_name( "button_72" )
+	local play_button_frames = sprite_manager.get_frames_by_name( "button_72" )
+	local play_button = widget.newButton( {
+		onRelease=tap_start,
+		sheet=sprite_manager.sprite_sheet,
+		defaultFrame=play_button_frames[1],
+		overFrame=play_button_frames[2],
+		x=0,
+		y=0
+	} ) 
 	
 	local sprite = sprite_manager.get_sprite_by_name( "alien_16" )
 	sprite:play()
 	
 	-- start_button = display.newGroup()
 	start_button = display.newGroup() 
-	start_button:insert( back )
+	start_button:insert( play_button )
 	start_button:insert( sprite )
 	
-	start_button.x = display.contentCenterX
-	start_button.y = display.contentCenterY
+	start_button.x = display.contentCenterX 
+	start_button.y = display.contentCenterY 
 	
 	group:insert( start_button )
+	------------------------------------------------------------------------
 	
 	-- Make edit text label
 	local edit_text = display.newText( group, "- EDIT -", 0, 0, "04B03", 16 )
 	edit_text.x = display.contentCenterX
 	edit_text.y = display.contentCenterY + 80
 	
-	
+	-----------------------------------------------------------------------
 	-- make Alien button
-	alien_button = display.newGroup()
-	local alien_back = sprite_manager.get_sprite_by_name( "button_40" )
-	local alien_sprite = sprite_manager.get_sprite_by_name( "alien_1" )
+	alien_button_group = display.newGroup()
+	local alien_button_frames = sprite_manager.get_frames_by_name( "button_40" )
+	local alien_button = widget.newButton( {
+		onRelease=tap_alien,
+		sheet=sprite_manager.sprite_sheet,
+		defaultFrame=alien_button_frames[1],
+		overFrame=alien_button_frames[2],
+		x = 0,
+		y=0
+	} )
+
+	
+	local alien_sprite = sprite_manager.get_sprite_by_name( "alien_16" )
 	alien_sprite:play()
-	alien_button:insert( alien_back )
-	alien_button:insert( alien_sprite )
 	
-	alien_button.x = display.contentCenterX + 40
-	alien_button.y = display.contentCenterY + 144
+	alien_button_group:insert( alien_button )
+	alien_button_group:insert( alien_sprite )
 	
-	group:insert( alien_button )
+	alien_button_group.x = display.contentCenterX
+	alien_button_group.y = display.contentCenterY + 144
 	
+	group:insert( alien_button_group )
+	
+	-------------------------------------------------------------------------
 	-- Make Satellite button
 	base_button = display.newGroup()
-	local base_back = sprite_manager.get_sprite_by_name( "button_40" )
+	local base_back = widget.newButton( {
+		onRelease=tap_base,
+		sheet=sprite_manager.sprite_sheet,
+		defaultFrame=alien_button_frames[1],
+		overFrame=alien_button_frames[2],
+		x=0,
+		y=0
+	} )
 	local base_sprite = sprite_manager.get_sprite_by_name( "satellite_1" )
-	base_sprite:play()
 	base_button:insert( base_back )
 	base_button:insert( base_sprite )
 	
-	base_button.x = display.contentCenterX - 40
+	base_button.x = display.contentCenterX - 48
 	base_button.y = display.contentCenterY + 144
 	
 	group:insert( base_button )
 	
-	-- Make send info button
-	send_button = display.newText( "SEND INFO", 0, 0, "04B03", 24 )
-	send_button.anchorX = 1
-	send_button.anchorY = 0
-	send_button.x = display.contentWidth - 10
-	send_button.y = 10	
-	send_button:setFillColor( 0.5, 0.5, 0.5 )
-	group:insert( send_button )
-	
+	-------------------------------------------------------------------------
 	-- Make Worlds button
 	worlds_button = display.newGroup()
-	local worlds_back = sprite_manager.get_sprite_by_name( "button_40" )
+	local worlds_back = widget.newButton( {
+		onRelease=tap_worlds,
+		sheet=sprite_manager.sprite_sheet,
+		defaultFrame=alien_button_frames[1],
+		overFrame=alien_button_frames[2],
+		x=0,
+		y=0
+	} )
 	worlds_button:insert( worlds_back )
 	worlds_sprite = sprite_manager.get_random_world()
 	worlds_button:insert( worlds_sprite )
+	
+	worlds_button.x = display.contentCenterX + 48
 	worlds_button.y = display.contentCenterY + 144
 	
 	group:insert( worlds_button )
+	------------------------------------------------------------------------
+	-- Make send info button
+	send_button = widget.newButton( {
+		onRelease=tap_send,
+		label="SEND INFO",
+		font="04B03",
+		fontSize=24,
+		labelColor = { default={ 0, 0.5, 0 }, over={ 0, 1, 0, 1 } }
+	} )
+	group:insert( send_button )
 	
-	base_button.x = display.contentCenterX - 48
-	alien_button.x = display.contentCenterX
-	worlds_button.x = display.contentCenterX + 48
 end
 
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	start_button:addEventListener( "tap", tap_start )
-	alien_button:addEventListener( "tap", tap_alien )
-	base_button:addEventListener( "tap", tap_base )
-	send_button:addEventListener( "tap", tap_send )
-	worlds_button:addEventListener( "tap", tap_worlds )
 	
 	local prior_scene = storyboard.getPrevious()
 	storyboard.purgeScene( prior_scene )
@@ -171,11 +203,7 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	local group = self.view
-	start_button:removeEventListener( "tap", tap_start )
-	alien_button:removeEventListener( "tap", tap_alien )
-	base_button:removeEventListener( "tap", tap_base )
-	send_button:removeEventListener( "tap", tap_send )
-	worlds_button:removeEventListener( "tap", tap_worlds )
+	
 end
 
 

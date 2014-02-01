@@ -48,7 +48,7 @@ local function Tile()
 	tile:setFillColor( TILE_COLOR.r, TILE_COLOR.g, TILE_COLOR.b, TILE_COLOR.a )
 	tile.strokeWidth = TILE_STROKE_WIDTH
 	tile:setStrokeColor( TILE_STROKE_COLOR.r, TILE_STROKE_COLOR.g, TILE_STROKE_COLOR.b, TILE_STROKE_COLOR.a )
-	
+	tile.blendMode = "add"
 	return tile 
 end 
 

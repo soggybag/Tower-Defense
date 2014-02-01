@@ -21,6 +21,7 @@ local defense			= require( "lib.defense" )
 local people 			= require( "lib.people" )
 local worlds			= require( "lib.worlds" )
 local sprite_manager	= require( "lib.sprite-manager" )
+local widget			= require( "widget" )
 -----------------------------------------------------------------------------------------
 local controls_group
 local defense_group
@@ -99,7 +100,15 @@ function scene:createScene( event )
 	bullet_manager.set_view( defense_group ) 
 	alien.set_view( defense_group )
 	
-	home_button = sprite_manager.get_sprite_by_name( "button_40" )
+	home_button = widget.newButton( {
+		onRelease=tap_home,
+		sheet=sprite_manager.sprite_sheet,
+		defaultFrame=sprite_manager.get_frames_by_name( "button_40" )[1],
+		overFrame=sprite_manager.get_frames_by_name( "button_40" )[2],
+		label="<",
+		font="04B03",
+		fontSize=24
+	} )
 	home_button.x = display.contentWidth - 30
 	home_button.y = display.contentHeight - 30
 	
@@ -133,7 +142,6 @@ function scene:enterScene( event )
 	local group = self.view
 	energy.start_timer()
 	alien.start_timer( 1000, -1 )
-	home_button:addEventListener( "tap", tap_home )
 	Runtime:addEventListener( "enterFrame", on_frame )
 	audio.play( sound, {loops=-1} )
 end
@@ -146,7 +154,6 @@ function scene:exitScene( event )
 	alien.stop_timer()
 	energy.stop_timer()
 	defense.stop_timers()
-	home_button:removeEventListener( "tap", tap_home )
 	Runtime:removeEventListener( "enterFrame", on_frame )
 	audio.stop()
 end
