@@ -64,8 +64,9 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
-	local back = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+	local back = display.newRect( display.contentCenterX, display.contentCenterY + 26, display.contentWidth, display.contentHeight - 55 )
 	back:setFillColor( 0.232, 0.245, 0.271 )
+	
 	group:insert( back )
 	
 	-- Make Home button
@@ -78,17 +79,26 @@ function scene:createScene( event )
 		defaultFrame=sprite_manager.get_frames_by_name("button_40")[1],
 		overFrame=sprite_manager.get_frames_by_name("button_40")[2]
 	} )
-	home_button.x = display.contentWidth - 30
-	home_button.y = display.contentHeight - 30
+	home_button.x = 28
+	home_button.y = 28
 	group:insert( home_button )
 	
 	---------------------------------------------------------------------------
+	-- Base Name
 	details_text = display.newText( "NAME:", 0, 0, "04B03", 24 )
 	details_text.anchorX = 0
-	details_text.x = 140
-	details_text.y = 60
+	details_text.x = 110
+	details_text.y = 80
 	group:insert( details_text )
-	---------------------------------------------------------------------------
+	
+	-----------------------------
+	-- ROF Label 
+	rof_text = display.newText( "ROF: ", 0, 0, "04B03", 24 )
+	rof_text.x = display.contentCenterX
+	rof_text.y = 180
+	group:insert( rof_text )
+	-----------------------------
+	-- ROF Slider
 	rof_slider = widget.newSlider( {
 		top = 150,
 		left = 50,
@@ -96,15 +106,17 @@ function scene:createScene( event )
 		value = 50,  -- 
 		listener = on_rof_slider
 	} )
+	rof_slider.y = 230
 	
 	group:insert( rof_slider )
-	
-	rof_text = display.newText( "ROF: ", 0, 0, "04B03", 24 )
-	rof_text.x = display.contentCenterX
-	rof_text.y = 120
-	group:insert( rof_text )
 	----------------------------------------------------------------------------
+	-- Damage label
+	damage_text = display.newText( "DAMAGE: ", 0, 0, "04B03", 24 )
+	damage_text.x = display.contentCenterX
+	damage_text.y = 280
+	group:insert( damage_text )
 	
+	-- Damager Slider
 	damage_slider = widget.newSlider( {
 		top = 250,
 		left = 50,
@@ -113,16 +125,16 @@ function scene:createScene( event )
 		value = 50,  -- Start slider at 10% (optional)
 		listener = on_damage_slider
 	} )
-	
+	damage_slider.y = 330
 	group:insert( damage_slider )
-	
-	damage_text = display.newText( "DAMAGE: ", 0, 0, "04B03", 24 )
-	damage_text.x = display.contentCenterX
-	damage_text.y = 220
-	group:insert( damage_text )
-	
-	-----------------------------------------------------------------------------
-	
+	-----------------------------------------------------------------
+	-- Cost label
+	cost_text = display.newText( "COST: ", 0, 0, "04B03", 24 )
+	cost_text.x = display.contentCenterX
+	cost_text.y = 380
+	group:insert( cost_text )
+	------------------------
+	-- cost slider
 	cost_slider = widget.newSlider( {
 		top = 350,
 		left = 50,
@@ -131,13 +143,8 @@ function scene:createScene( event )
 		value = 50,  -- Start slider at 10% (optional)
 		listener = on_cost_slider
 	} )
-	
+	cost_slider.y = 430
 	group:insert( cost_slider )
-	
-	cost_text = display.newText( "COST: ", 0, 0, "04B03", 24 )
-	cost_text.x = display.contentCenterX
-	cost_text.y = 320
-	group:insert( cost_text )
 	
 end
 
@@ -152,7 +159,7 @@ function scene:willEnterScene( event )
 	base_sprite.xScale = 2
 	base_sprite.yScale = 2
 	base_sprite.x = 60
-	base_sprite.y = 60
+	base_sprite.y = 100
 	
 	base_name 	= data.name
 	base_damage = data.damage

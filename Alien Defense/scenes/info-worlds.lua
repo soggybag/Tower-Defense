@@ -63,6 +63,7 @@ local function onRowTouch( event )
 	end 
 end
 
+----------------------------------------------------------------------------------
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
@@ -71,8 +72,8 @@ function scene:createScene( event )
 	
 	local list = widget.newTableView( {
 		left = 0,
-		top = 0,
-		height = display.contentHeight,
+		top = 55,
+		height = display.contentHeight - 55,
 		width = display.contentWidth,
 		onRowRender = onRowRender,
 		onRowTouch = onRowTouch,
@@ -107,10 +108,10 @@ function scene:createScene( event )
 		overFrame=sprite_manager.get_frames_by_name("button_40")[2]
 	})
 	group:insert( home_button )
-	home_button.x = display.contentWidth - 30
-	home_button.y = display.contentHeight - 30
+	home_button.x = 28
+	home_button.y = 28
 end
-
+----------------------------------------------------------------------------------
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )

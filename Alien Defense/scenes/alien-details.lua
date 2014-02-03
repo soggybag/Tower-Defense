@@ -49,15 +49,14 @@ local function on_hits_slider( event )
 	end 
 end
 -----------------------------------------------------------------------------------------
-
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
 	
-	local back = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+	local back = display.newRect( display.contentCenterX, display.contentCenterY + 26, display.contentWidth, display.contentHeight - 55 )
 	back:setFillColor( 0.232, 0.245, 0.271 )
 	group:insert( back )
-	
+	----------------------------------------
 	home_button = widget.newButton( {
 		onRelease=tap_home,
 		sheet=sprite_manager.sprite_sheet,
@@ -67,18 +66,26 @@ function scene:createScene( event )
 		font="04B03",
 		fontSize=24
 	} )
-	home_button.x = display.contentWidth - 30
-	home_button.y = display.contentHeight - 30
+	home_button.x = 28
+	home_button.y = 28
 	group:insert( home_button )
-	
-	
+	-----------------------------------------------------------------
+	-- Name Text
 	details_text = display.newText( "NAME:", 0, 0, "04B03", 24 )
 	details_text.anchorX = 0
-	details_text.x = 140
-	details_text.y = 60
+	details_text.x = 110
+	details_text.y = 80
 	
 	group:insert( details_text )
 	
+	-----------------------------------------------------------------
+	-- Speed label
+	speed_text = display.newText( "SPEED:", 0, 0, "04B03", 24 )
+	speed_text.x = display.contentCenterX
+	speed_text.y = 180
+	group:insert( speed_text )
+	-----------------------------------------------------------------
+	-- Speed Slider
 	speed_slider = widget.newSlider( {
 		top = 150,
 		left = 50,
@@ -86,20 +93,15 @@ function scene:createScene( event )
 		value = 50,  -- 
 		listener = on_speed_slider
 	} )
-	
+	speed_slider.y = 230
 	group:insert( speed_slider )
-	
-	speed_text = display.newText( "SPEED:", 0, 0, "04B03", 24 )
-	speed_text.x = display.contentCenterX
-	speed_text.y = 120
-	group:insert( speed_text )
-	
-
+	----------------------------------------------------------------
+	-- Hits text
 	hits_text = display.newText( "HITS:", 0, 0, "04B03", 24 )
 	hits_text.x = display.contentCenterX
-	hits_text.y = 220
+	hits_text.y = 280
 	group:insert( hits_text )
-	
+	-- Hits slider 
 	hits_slider = widget.newSlider( {
 		top = 250,
 		left = 50,
@@ -108,11 +110,12 @@ function scene:createScene( event )
 		value = 50,  -- Start slider at 10% (optional)
 		listener = on_hits_slider
 	} )
-	
+	hits_slider.y = 330
 	group:insert( hits_slider )
 end
+-----------------------------------------------------------------------------------------
 
-
+-- Will EnterScene 
 function scene:willEnterScene( event ) 
 	local data = event.params.data
 	alien_name = data.name
@@ -129,7 +132,7 @@ function scene:willEnterScene( event )
 	alien_sprite.xScale = 2
 	alien_sprite.yScale = 2
 	alien_sprite.x = 60
-	alien_sprite.y = 60
+	alien_sprite.y = 100
 	
 	details_text.text = "NAME: " .. alien_name
 	speed_text.text = "SPEED: " .. alien_speed

@@ -76,12 +76,6 @@ function scene:createScene( event )
 	group:insert( defense_group )
 	group:insert( controls_group )
 	
-	--[[
-	background = display.newImageRect( "Background-2.png", 360, 570 )
-	background.x = display.contentCenterX 
-	background.y = display.contentCenterY
-	--]]
-	
 	local world_index = 1
 	if event.params ~= nil then
 		world_index = event.params.world_index
@@ -92,7 +86,7 @@ function scene:createScene( event )
 	background.y = display.contentCenterY
 	
 	local energy_view = energy.build()
-	energy_view.x = display.contentWidth - 10
+	energy_view.x = display.contentWidth - 80
 	energy_view.y = 20
 	
 	local grid_group = grid.build()
@@ -109,8 +103,8 @@ function scene:createScene( event )
 		font="04B03",
 		fontSize=24
 	} )
-	home_button.x = display.contentWidth - 30
-	home_button.y = display.contentHeight - 30
+	home_button.x = 28
+	home_button.y = 28
 	
 	collision_manager.set_view( defense_group )
 	
@@ -129,7 +123,7 @@ function scene:willEnterScene( event )
 	local defense_buttons_view = defense_buttons.build()
 	controls_group:insert( defense_buttons_view )
 	defense_buttons_view.x = display.contentWidth - 30
-	defense_buttons_view.y = 65
+	defense_buttons_view.y = 30
 	energy.set_energy( 50 )
 	people.build()
 	if event.params ~= nil then 

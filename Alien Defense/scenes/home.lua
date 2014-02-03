@@ -179,14 +179,10 @@ function scene:createScene( event )
 	group:insert( worlds_button )
 	------------------------------------------------------------------------
 	-- Make send info button
-	send_button = widget.newButton( {
-		onRelease=tap_send,
-		label="SEND INFO",
-		font="04B03",
-		fontSize=24,
-		labelColor = { default={ 0, 0.5, 0 }, over={ 0, 1, 0, 1 } }
-	} )
+	send_button = sprite_manager.get_button( "SEND INFO", 142, 36, tap_send )
 	group:insert( send_button )
+	send_button.x = 74
+	send_button.y = 21
 	
 end
 

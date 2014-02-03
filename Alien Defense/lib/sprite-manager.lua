@@ -2,6 +2,8 @@
 ------------------------------------------------------------------------------
 local M = {}
 ------------------------------------------------------------------------------
+local widget = require( "widget" )
+------------------------------------------------------------------------------
 local sprite_data = {
 	-- Start 1, end 25
 	alien_1			={
@@ -83,24 +85,25 @@ local sprite_data = {
 	
 	worlds			={frames={456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480}, time=1000},
 	
-	missile_1		={frames={481}, time=1000},
-	missile_2		={frames={482}, time=1000},
-	missile_3		={frames={483}, time=1000},
-	missile_4		={frames={484}, time=1000},
-	missile_5		={frames={485}, time=1000},
-	missile_6		={frames={486}, time=1000},
-	missile_7		={frames={487,491}, time=1000},
-	missile_8		={frames={492,495}, time=1000},
-	missile_9		={frames={496}, time=1000},
-	missile_6		={frames={497,498,499}, time=1000},
+	missile_1		={frames={481}},
+	missile_2		={frames={482}},
+	missile_3		={frames={483}},
+	missile_4		={frames={484}},
+	missile_5		={frames={485}},
+	missile_6		={frames={486}},
+	missile_7		={frames={487,488,489,490,491}},
+	missile_8		={frames={492,493,494,495}},
+	missile_9		={frames={496}},
+	missile_6		={frames={497,498,499}},
 	
 	buildings		={frames={500,512}},
 	
 	explosion_big	={start=513,count=13},
 	explosion_small	={start=526, count=13},
 	
-	button_40		={frames={540,539}, time=1000},
-	button_72		={frames={542,541}, time=1000}, 
+	button_40		={frames={540,539}},
+	button_slices	={frames={541,542,543,544,545,546,547,548,549}},
+	button_72		={frames={551,550}}, 
 }
 
 local sprite_sheet = graphics.newImageSheet( "images/TD-Sprites.png", require("lib.TD-Sprites").getSheetOptions() )
@@ -162,7 +165,6 @@ local function get_world_sprite( id )
 end 
 M.get_world_sprite = get_world_sprite
 -----------------------------------
-
 local function get_random_world()
 	local world = display.newGroup()
 	local back = get_random_world_image()
@@ -188,6 +190,39 @@ local function get_random_world()
 	return world
 end 
 M.get_random_world = get_random_world
+---------------------------------------
+local function get_button( label, width, height, onRelease )
+	local frames = sprite_data.button_slices.frames
+	return widget.newButton( {
+		sheet=sprite_sheet,
+		width=width,
+		height=height,
+		topLeftFrame=frames[1],
+		topMiddleFrame=frames[2],
+		topRightFrame=frames[3],
+		middleLeftFrame=frames[4],
+		middleFrame=frames[5],
+		middleRightFrame=frames[6],
+		bottomLeftFrame=frames[7],
+		bottomMiddleFrame=frames[8],
+		bottomRightFrame=frames[9],
+		
+		topLeftOverFrame=frames[1],
+		topMiddleOverFrame=frames[2],
+		topRightOverFrame=frames[3],
+		middleLeftOverFrame=frames[4],
+		middleOverFrame=frames[5],
+		middleRightOverFrame=frames[6],
+		bottomLeftOverFrame=frames[7],
+		bottomMiddleOverFrame=frames[8],
+		bottomRightOverFrame=frames[9],
+		label=label,
+		font="04B03",
+		fontSize=24,
+		onRelease=onRelease
+	} )
+end 
+M.get_button = get_button
 ------------------------------------------------------------------------------
 return M 
 
