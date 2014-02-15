@@ -17,10 +17,11 @@ storyboard.gotoScene( "scenes.home", {effect="slideRight", time=400} )
 
 
 -----------------------------------------------------------------------------------------
+-- Monitor memory
 local memory_text = display.newText( "Hello", 5, 5, "04B03", 16 )
 memory_text:setFillColor( 1, 1, 1 )
 memory_text.anchorX = 0
-memory_text.y = display.contentHeight - 12
+memory_text.y = display.contentHeight - 24
 memory_text:setFillColor( 0.6, 0.3, 0 )
 memory_text.blendMode = "screen"
 

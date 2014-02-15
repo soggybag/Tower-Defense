@@ -3,14 +3,15 @@
 -- game.lua
 --
 -----------------------------------------------------------------------------------------
-
+-- Storyboard boiler plate
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
 -- Todo: 
-
+-- Need to reconcile the two game over handlers. 
 
 -----------------------------------------------------------------------------------------
+-- Import some modules
 local alien				= require( "lib.alien" )
 local energy	 		= require( "lib.energy" )
 local defense_buttons 	= require( "lib.defense_button_group" )
@@ -23,12 +24,16 @@ local worlds			= require( "lib.worlds" )
 local sprite_manager	= require( "lib.sprite-manager" )
 local widget			= require( "widget" )
 -----------------------------------------------------------------------------------------
+-- Define some variables
 local controls_group
 local defense_group
 local back_group
 local home_button
 local sound 
 -----------------------------------------------------------------------------------------
+-- Functions used in 
+-----------------------------------------------------------------------------------------
+-- *********** Check for game over ************
 local function check_game_over() 
 	-- print( "Game On Frame" )
 	if people.get_people() < 1 then 
@@ -39,6 +44,7 @@ local function check_game_over()
 	end 
 end 
 -----------------------------------------------------------------------------------------
+-- Frame loop
 local function on_frame( event )
 	bullet_manager.update()
 	alien.update()
@@ -47,12 +53,14 @@ local function on_frame( event )
 	check_game_over()
 end 
 -----------------------------------------------------------------------------------------
+-- Handle home button
 local function tap_home( event ) 
 	print( "Game Tap Home" )
 	storyboard.gotoScene( "scenes.home", {effect="slideLeft", time=400} )
 	return true
 end 
-
+-----------------------------------------------------------------------------------------
+-- ********** Second game over handler *********** 
 local function on_game_over( event )
 	print( "Game On Game Over" )
 	scene:destroyScene()

@@ -96,7 +96,7 @@ local sprite_data = {
 	missile_9		={frames={496}},
 	missile_6		={frames={497,498,499}},
 	
-	buildings		={frames={500,512}},
+	buildings		={frames={500,501,502,503,504,505,506,507,508,509,510,511,512}},
 	
 	explosion_big	={start=513,count=13},
 	explosion_small	={start=526, count=13},
@@ -131,6 +131,11 @@ local function get_random_person()
 	return get_random_frame_from_set( "people" )
 end 
 M.get_random_person = get_random_person
+-----------------------------------------------------------------------------------------
+local function get_random_building()
+	return get_random_frame_from_set( "buildings" ) 
+end 
+M.get_random_building = get_random_building
 -----------------------------------------------------------------------------------------
 local function get_sprite_by_name( name )
 	return display.newSprite( sprite_sheet, sprite_data[name] )
