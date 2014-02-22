@@ -40,11 +40,23 @@ local function onRowRender( event )
     name_text.x = 50
     name_text.y = 16
     
-    local pop_text = display.newText( row, "POPULATION: " .. world_array[index].population, 0, 0, "04B03", 16 )
+    local population_str = "POPULATION: " .. world_array[index].population
+    local tech_str = "TECH: " .. world_array[index].tech
+    
+    local pop_text = display.newText( row, population_str .. " " .. tech_str, 0, 0, "04B03", 16 )
     pop_text.anchorX = 0
     pop_text.x = 50
     pop_text.y = 36
     pop_text:setFillColor( SUB_COLOR[1], SUB_COLOR[2], SUB_COLOR[3] )
+    
+    -- print( "*******", world_array[index].tech )
+    --[[
+    local tech_text = display.newText( row, "TECH: " .. world_array[index].tech, 0, 0, "04B03", 16 )
+    tech_text.anchorX = 0
+    tech_text.x = 200
+    tech_text.y = 36
+    tech_text:setFillColor( SUB_COLOR[1], SUB_COLOR[2], SUB_COLOR[3] )
+    --]]
     
     local world_sprite = sprite_manager.get_world_sprite( index )
     world_sprite.x = rowHeight / 2
@@ -59,7 +71,8 @@ end
 
 local function onRowTouch( event )
 	if event.phase == "release" then 
-		storyboard.gotoScene( "scenes.game", {effect="slideUp", time=400, params={world_index=event.row.index} } )
+		-- storyboard.gotoScene( "scenes.game", {effect="slideUp", time=400, params={world_index=event.row.index} } )
+		storyboard.gotoScene( "scenes.world-details", {effect="slideUp", time=400, params={world_index=event.row.index} } )
 	end 
 end
 
@@ -91,7 +104,7 @@ function scene:createScene( event )
 	group:insert( list )
 	
 	for item in worlds.iterate_worlds() do 
-		world_array[#world_array+1] = {name=item.name, population=item.population, color=item.color}
+		world_array[#world_array+1] = {name=item.name, population=item.population, color=item.color, tech=item.tech}
 		list:insertRow( {
 			rowColor=ROW_COLOR,
 			rowHeight=50

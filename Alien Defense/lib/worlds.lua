@@ -29,6 +29,12 @@ local function save_worlds()
 end 
 M.save_worlds = save_worlds
 
+
+
+
+-----------------------------------------------------------------------------------------
+-- Add new world
+-----------------------------------------------------------------------------------------
 local function add()
 	local world = {}
 	world.population = math.random( MIN_POP, MAX_POP )
@@ -47,21 +53,50 @@ end
 M.add = add 
 
 
+
+-----------------------------------------------------------------------------------------
+-- Get world name at index 
+-----------------------------------------------------------------------------------------
 local function get_name_at_index( index )
 	return world_array[index].name
 end 
 M.get_name_at_index = get_name_at_index
 
+
+
+-----------------------------------------------------------------------------------------
+-- Get world color at index 
+-----------------------------------------------------------------------------------------
 local function get_color_at_index( index )
 	return world_array[index].color
 end 
 M.get_color_at_index = get_color_at_index
 
+
+
+-----------------------------------------------------------------------------------------
+-- Get world population at index 
+-----------------------------------------------------------------------------------------
 local function get_population_at_index( index )
 	return world_array[index].population
 end 
 M.get_population_at_index = get_population_at_index
 
+
+
+-----------------------------------------------------------------------------------------
+-- Get world tech at index 
+-----------------------------------------------------------------------------------------
+local function get_tech_at_index( index )
+	return world_array[index].tech
+end 
+M.get_tech_at_index = get_tech_at_index
+
+
+
+-----------------------------------------------------------------------------------------
+-- Iterate worlds 
+-----------------------------------------------------------------------------------------
 local function iterate_worlds()
 	local n = 0
 	function iter()
@@ -76,6 +111,11 @@ local function iterate_worlds()
 end
 M.iterate_worlds = iterate_worlds
 
+
+
+-----------------------------------------------------------------------------------------
+-- Make world 
+-----------------------------------------------------------------------------------------
 local function make( index )
 	local world = display.newGroup()
 	local world_sprite = display.newCircle( 0, 0, WORLD_RADIUS )
@@ -86,16 +126,37 @@ local function make( index )
 end 
 M.make = make
 
+
+-----------------------------------------------------------------------------------------
+-- Get worlds 
+-----------------------------------------------------------------------------------------
 local function get_worlds()
 	return world_array
 end 
 M.get_worlds = get_worlds
 
 
+
+-----------------------------------------------------------------------------------------
+-- Generate Energy at index world
+-----------------------------------------------------------------------------------------
+local function generate_energy_at_index_world( n )
+	local energy = world_array[n].tech * world_array[n].population / 10000
+	
+	print( "world:" .. n, "tech:" .. world_array[n].tech, "population:" .. world_array[n].population )
+	
+	return energy
+end 
+M.generate_energy_at_index_world = generate_energy_at_index_world
+
+
+-----------------------------------------------------------------------------------------
+-- Init
+-----------------------------------------------------------------------------------------
 local function init()
 	world_array = data_store.loadTable()
 
-	print( "Loading data:", world_array )
+	-- print( "Loading data:", world_array )
 
 	if world_array == nil then 
 		-- initialize settings

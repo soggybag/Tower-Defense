@@ -66,6 +66,12 @@ local function on_game_over( event )
 	scene:destroyScene()
 	storyboard.gotoScene( "scenes.game_over", {effect="slideUp", time=400} )
 end 
+
+
+
+
+
+
 -----------------------------------------------------------------------------------------
 -- STORYBOARD HANDLERS
 -----------------------------------------------------------------------------------------
@@ -73,9 +79,14 @@ end
 function scene:createScene( event )
 	local group = self.view
 	
+	-------------------------------------------------------------------------------------
+	-- Load background sound
+	-------------------------------------------------------------------------------------
 	sound = audio.loadStream( "sound/RoccoW_-_DM1__LSDJ_Jam_Session.mp3" )
 	
+	-------------------------------------------------------------------------------------
 	-- Make display groups
+	-------------------------------------------------------------------------------------
 	back_group = display.newGroup()
 	defense_group = display.newGroup()
 	controls_group = display.newGroup()
@@ -84,16 +95,25 @@ function scene:createScene( event )
 	group:insert( defense_group )
 	group:insert( controls_group )
 	
+	-------------------------------------------------------------------------------------
+	-- Get world index, or world 1 
+	-------------------------------------------------------------------------------------
 	local world_index = 1
 	if event.params ~= nil then
 		world_index = event.params.world_index
 	end  
 	
+	-------------------------------------------------------------------------------------
+	-- Make background image
+	-------------------------------------------------------------------------------------
 	background = require( "lib.world_background" ).make( world_index )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 	
-	local energy_view = energy.build()
+	-------------------------------------------------------------------------------------
+	-- Build energy display
+	-------------------------------------------------------------------------------------
+	local energy_view = energy.build( world_index )
 	energy_view.x = display.contentWidth - 80
 	energy_view.y = 20
 	

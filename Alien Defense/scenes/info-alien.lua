@@ -66,7 +66,6 @@ local function onRowRender( event )
 end 
 
 local function onRowTouch( event )
-	print( event.phase )
 	if event.phase == "release" then 
 		local data = alien_types[event.target.index]
 		storyboard.gotoScene( "scenes.alien-details", {effect="slideUp", time=400, params={data=data}} )
