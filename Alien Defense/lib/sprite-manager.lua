@@ -1,9 +1,18 @@
-
+-----------------------------------------------------------------------------------------
+--
+-- sprite_manager.lua
+-- 
 ------------------------------------------------------------------------------
-local M = {}
+local M = {} 
 ------------------------------------------------------------------------------
 local widget = require( "widget" )
-------------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Private Properties 
+-- 
+-----------------------------------------------------------------------------------------
 local sprite_data = {
 	-- Start 1, end 25
 	alien_1			={
@@ -110,47 +119,82 @@ local sprite_sheet = graphics.newImageSheet( "images/TD-Sprites.png", require("l
 ------------------------------------------------------------------------------
 M.sprite_data = sprite_data
 M.sprite_sheet = sprite_sheet
+
+
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Public Methods 
+--
+-----------------------------------------------------------------------------------------
+
+
+-- get_frames_by_name
 ----------------------------------------------------------------------------------
 local function get_frames_by_name( name )
 	return  sprite_data[name].frames
 end 
 M.get_frames_by_name = get_frames_by_name
+
+
+-- get_image_by_name
 ----------------------------------------------------------------------------------
 local function get_image_by_name( name )
 	return display.newImage( sprite_sheet, sprite_data[name].frame )
 end 
 M.get_image_by_name = get_image_by_name
+
+
+-- get_random_frame_from_set
 ------------------------------------------------------------------------------------
 local function get_random_frame_from_set( name )
 	local frames = sprite_data[name].frames
 	return display.newImage( sprite_sheet, frames[math.random(#frames)] )
 end 
 M.get_random_frame_from_set = get_random_frame_from_set
+
+
+-- get_random_person
 ---------------------------------------------------------------------------------------
 local function get_random_person()
 	return get_random_frame_from_set( "people" )
 end 
 M.get_random_person = get_random_person
+
+
+-- get_random_building
 -----------------------------------------------------------------------------------------
 local function get_random_building()
 	return get_random_frame_from_set( "buildings" ) 
 end 
 M.get_random_building = get_random_building
+
+
+-- get_sprite_by_name
 -----------------------------------------------------------------------------------------
 local function get_sprite_by_name( name )
 	return display.newSprite( sprite_sheet, sprite_data[name] )
 end 
 M.get_sprite_by_name = get_sprite_by_name
+
+
+-- get_random_world_image
 -----------------------------------------------------------------------------------------
 local function get_random_world_image()
 	return get_random_frame_from_set( "worlds" )
 end 
 M.get_random_world_image = get_random_world_image
+
+
+-- get_world_by_frame
 ----------------------------------------------------------------------------------------
 local function get_world_by_frame( n )
 	return display.newImage( sprite_sheet, sprite_data.worlds.frames[n] ) 
 end 
 M.get_world_by_frame = get_world_by_frame
+
+
+-- get_world_sprite
 -----------------------------------
 local function get_world_sprite( id )
 	local world_array = require( "lib.worlds" ).get_worlds()[id]
@@ -169,6 +213,9 @@ local function get_world_sprite( id )
 	return world
 end 
 M.get_world_sprite = get_world_sprite
+
+
+-- get_random_world
 -----------------------------------
 local function get_random_world()
 	local world = display.newGroup()
@@ -176,7 +223,7 @@ local function get_random_world()
 	local front = get_random_world_image()
 	world:insert(back)
 	world:insert(front)
-
+ 
 	if math.random(2) == 1 then 
 		back.xScale = -1
 	end
@@ -195,6 +242,136 @@ local function get_random_world()
 	return world
 end 
 M.get_random_world = get_random_world
+
+
+
+
+
+-- make_sprite_button
+--------------------------------------------------------------------------------
+local function make_sprite_button( which_sprite, onRelease )
+	-- make Alien button
+	local alien_button_group = display.newGroup()
+	local alien_button_frames = get_frames_by_name( "button_40" )
+	local alien_button = widget.newButton( {
+		onRelease=onRelease,
+		sheet=sprite_sheet,
+		defaultFrame=alien_button_frames[1],
+		overFrame=alien_button_frames[2],
+		x = 0,
+		y = 0
+	} )
+	local alien_sprite = get_sprite_by_name( which_sprite )
+	alien_sprite:play()
+
+	alien_button_group:insert( alien_button )
+	alien_button_group:insert( alien_sprite )
+	
+	return alien_button_group	
+end 
+M.make_sprite_button = make_sprite_button
+
+
+
+
+-- make_world_button
+--------------------------------------------------------------------------------
+local function make_world_button( onRelease )
+	-- make Alien button
+	local button_group = display.newGroup()
+	local button_frames = get_frames_by_name( "button_40" )
+	local button = widget.newButton( {
+		onRelease=onRelease,
+		sheet=sprite_sheet,
+		defaultFrame=button_frames[1],
+		overFrame=button_frames[2],
+		x = 0,
+		y = 0
+	} )
+	local world_sprite = get_random_world()
+
+	button_group:insert( button )
+	button_group:insert( world_sprite )
+	
+	return button_group	
+end 
+M.make_world_button = make_world_button
+
+
+
+
+
+
+-- make_alien_toggle_button 
+---------------------------------------------------------------
+local function make_alien_toggle_button( which_alien, handler )
+	
+	-- Make a group 
+	local button_group = display.newGroup()
+	local button = get_sprite_by_name( "button_40" )
+	
+	-- make an alien
+	local alien_sprite = get_sprite_by_name( which_alien )
+	
+	-- enable this button
+	function button_group:enable()
+		self.enabled = true
+		self.alpha = 1
+	end 
+	
+	-- disable this button
+	function button_group:disable()
+		self.enabled = false
+		self.alpha = 0.5
+	end
+	
+	-- select this button
+	function button_group:select()
+		-- self.button.strokeWidth = 3
+		self.button:setFillColor( 1, 0, 0 )
+		self.alien_sprite:play()
+		self.selected = true
+	end 
+	
+	function button_group:deselect()
+		-- self.button.strokeWidth = 0
+		self.button:setFillColor( 1, 1, 1 )
+		self.alien_sprite:pause()
+		self.alien_sprite:setFrame( 1 )
+		self.selected = false
+	end 
+	
+	function button_group:toggle() 
+		if self.selected then 
+			self:deselect()
+		else 
+			self:select()
+		end 
+	end 
+	
+	button_group.alien_sprite = alien_sprite
+	button_group.button = button
+	
+	button_group:insert( button )
+	button_group:insert( alien_sprite )
+	
+	local function on_touch( event )
+		if event.phase == "began" then 
+			event.target:toggle()
+		end 
+	end 	
+	button_group:addEventListener( "touch", on_touch )
+	button_group:enable()
+	
+	return button_group
+end 
+M.make_alien_toggle_button = make_alien_toggle_button
+
+
+
+
+
+-- get_button
 ---------------------------------------
 local function get_button( label, width, height, onRelease )
 	local frames = sprite_data.button_slices.frames

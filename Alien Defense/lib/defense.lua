@@ -1,28 +1,48 @@
-
-
+-----------------------------------------------------------------------------------------
+-- 
+-- defense.lua 
+-- 
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
+
 local energy 			= require( "lib.energy" )
 local bullet_manager 	= require( "lib.bullet_manager" )
 local sprite_manager	= require( "lib.sprite-manager" )
+
 -----------------------------------------------------------------------------------------
+-- 
+-- Private properties 
+-- 
+-----------------------------------------------------------------------------------------
+
 local selected_defense = 1
 local defense_array = {}
 
 local defense_type_array = {
-			{id="satellite_1", name="04B",	rof=1000,	damage=1,	hits=10, cost=40, bullet_sprite="missile_1", sprite={start=1, count=1}, frame=1 },
-			{id="satellite_2", name="X97",	rof=500,	damage=0.5,	hits=10, cost=50, bullet_sprite="missile_2", sprite={start=2, count=1}, frame=2 },
-			{id="satellite_3", name="R37",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_3", sprite={start=3, count=1}, frame=3 },
-			{id="satellite_4", name="8UL",	rof=1500,	damage=0.5,	hits=10, cost=70, bullet_sprite="missile_4", sprite={start=4, count=1}, frame=4 }, 	
-			{id="satellite_5", name="G70",	rof=250,	damage=0.3, hits=10, cost=20, bullet_sprite="missile_5", sprite={start=5, count=1}, frame=5 },
-			{id="satellite_6", name="Z44",	rof=1000,	damage=1,	hits=10, cost=40, bullet_sprite="missile_6", sprite={start=1, count=1}, frame=1 },
-			{id="satellite_7", name="9QU",	rof=500,	damage=0.5,	hits=10, cost=50, bullet_sprite="missile_7", sprite={start=2, count=1}, frame=2 },
-			{id="satellite_8", name="PPX",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_8", sprite={start=3, count=1}, frame=3 },
-			{id="satellite_9", name="99T",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_9", sprite={start=3, count=1}, frame=3 }
-		}
+	{id="satellite_1", name="04B",	rof=1000,	damage=1,	hits=10, cost=40, bullet_sprite="missile_1", sprite={start=1, count=1}, frame=1 },
+	{id="satellite_2", name="X97",	rof=500,	damage=0.5,	hits=10, cost=50, bullet_sprite="missile_2", sprite={start=2, count=1}, frame=2 },
+	{id="satellite_3", name="R37",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_3", sprite={start=3, count=1}, frame=3 },
+	{id="satellite_4", name="8UL",	rof=1500,	damage=0.5,	hits=10, cost=70, bullet_sprite="missile_4", sprite={start=4, count=1}, frame=4 }, 	
+	{id="satellite_5", name="G70",	rof=250,	damage=0.3, hits=10, cost=20, bullet_sprite="missile_5", sprite={start=5, count=1}, frame=5 },
+	{id="satellite_6", name="Z44",	rof=1000,	damage=1,	hits=10, cost=40, bullet_sprite="missile_6", sprite={start=1, count=1}, frame=1 },
+	{id="satellite_7", name="9QU",	rof=500,	damage=0.5,	hits=10, cost=50, bullet_sprite="missile_7", sprite={start=2, count=1}, frame=2 },
+	{id="satellite_8", name="PPX",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_8", sprite={start=3, count=1}, frame=3 },
+	{id="satellite_9", name="99T",	rof=2000,	damage=3,	hits=10, cost=60, bullet_sprite="missile_9", sprite={start=3, count=1}, frame=3 }
+}
 
 
+
+
+-----------------------------------------------------------------------------------------
+--
+-- Private methods 
+-- 
+-----------------------------------------------------------------------------------------
+
+
+-- remove_defense 
+-----------------------------------------------------------------------------------------
 local function remove_defense( defense )
 	defense.tile.has_defense = false
 	local index = table.indexOf( defense_array, defense ) 
@@ -31,6 +51,18 @@ local function remove_defense( defense )
 	display.remove( defense )
 end 
 
+-----------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Public methods 
+-- 
+-----------------------------------------------------------------------------------------
+
+
+-- make
 -----------------------------------------------------------------------------------------
 local function make( tile )
 	local new_defense = nil
@@ -70,6 +102,9 @@ end
 M.make = make
 
 
+-- set_props_by_name
+-- Sets properties of a defense name, rate of fire, damage, cost
+-----------------------------------------------------------------------------------------
 local function set_props_by_name( base_name, base_rof, base_damage, base_cost )
 	for i = 1, #defense_type_array do 
 		if defense_type_array[i].name == base_name then 
@@ -82,31 +117,53 @@ local function set_props_by_name( base_name, base_rof, base_damage, base_cost )
 end 
 M.set_props_by_name = set_props_by_name
 
+
+-- get_types 
+-- returns defense types array 
+-----------------------------------------------------------------------------------------
 local function get_types()
 	return defense_type_array
 end 
 M.get_types = get_types
 
+
+-- get_cost
+-- returns the cost of the selected defense
+-----------------------------------------------------------------------------------------
 local function get_cost()
 	return defense_type_array[ selected_defense ].cost
 end 
 M.get_cost = get_cost
 
+
+-- get_name 
+-- Returns the name of the selected defense 
+-----------------------------------------------------------------------------------------
 local function get_name()
 	return defense_type_array[ selected_defense ].name
 end 
 M.get_name = get_name
 
+
+-- get_rof
+-- Returns rate of fire for selected defense 
+-----------------------------------------------------------------------------------------
 local function get_rof()
 	return defense_type_array[ selected_defense ].rof
 end 
 M.get_rof = get_rof
 
+
+-- set_selected_defense
+-----------------------------------------------------------------------------------------
 local function set_selected_defense( id )
 	selected_defense = id
 end
 M.set_selected_defense = set_selected_defense
 
+
+-- stop_timers
+-----------------------------------------------------------------------------------------
 local function stop_timers()
 	for i = #defense_array, 1, -1 do 
 		timer.cancel( defense_array[i].timer )
@@ -114,6 +171,9 @@ local function stop_timers()
 end 
 M.stop_timers = stop_timers
 
+
+-- destroy
+-----------------------------------------------------------------------------------------
 local function destroy()
 	stop_timers()
 	for i = #defense_array, 1, -1 do 

@@ -1,9 +1,19 @@
-
+-----------------------------------------------------------------------------------------
+-- 
+-- grid.lua
+-- 
 -----------------------------------------------------------------------------------------
 local M = {}
 -----------------------------------------------------------------------------------------
 local defense = require( "lib.defense" )
+
+
 -----------------------------------------------------------------------------------------
+-- 
+-- private properties 
+-- 
+-----------------------------------------------------------------------------------------
+
 local TILE_ROWS = 9
 local TILE_COLS = 5
 local TILE_SIZE = 48
@@ -19,6 +29,16 @@ local grid_array = {}
 local place_sound
 local not_placed_sound
 
+
+-----------------------------------------------------------------------------------------
+--
+-- Private Methods 
+-- 
+-----------------------------------------------------------------------------------------
+
+
+-- touch_tile 
+-----------------------------------------------------------------------------------------
 local function touch_tile( event )  
 	local phase = event.phase
 	local tile = event.target
@@ -42,6 +62,9 @@ local function touch_tile( event )
 	return true
 end
 
+
+-- Tile 
+-----------------------------------------------------------------------------------------
 local function Tile()
 	local tile = display.newRect( 0, 0, TILE_SIZE, TILE_SIZE )
 	-- TILE_COLOR.r, g, b, a
@@ -52,6 +75,18 @@ local function Tile()
 	return tile 
 end 
 
+-----------------------------------------------------------------------------------------
+
+
+
+
+-----------------------------------------------------------------------------------------
+--
+-- Public Methods 
+-- 
+-----------------------------------------------------------------------------------------
+
+-- alien_in_tile 
 -----------------------------------------------------------------------------------------
 local function alien_in_tile( alien )
 	
@@ -73,6 +108,9 @@ local function alien_in_tile( alien )
 end 
 M.alien_in_tile = alien_in_tile
 
+
+-- point_in_tile 
+-----------------------------------------------------------------------------------------
 local function point_in_tile( point )
 	local x = point.x
 	local y = point.y
@@ -103,6 +141,9 @@ local function point_in_tile( point )
 end 
 M.point_in_tile = point_in_tile
 
+
+-- make 
+-----------------------------------------------------------------------------------------
 local function make()
 	for row = 1, TILE_ROWS, 1 do 
 		 for col = 1, TILE_COLS, 1 do 
@@ -125,11 +166,17 @@ local function make()
 end
 M.make = make
 
+
+-- get_view 
+-----------------------------------------------------------------------------------------
 local function get_view()
 	return grid_group
 end
 M.get_view = get_view
 
+
+-- build 
+-----------------------------------------------------------------------------------------
 local function build()
 	grid_group = display.newGroup()
 	make()
@@ -139,16 +186,25 @@ local function build()
 end
 M.build = build
 
+
+-- get_rows_cols
+-----------------------------------------------------------------------------------------
 local function get_rows_cols()
 	return TILE_ROWS, TILE_COLS
 end
 M.get_rows_cols = get_rows_cols
 
+
+-- get_tile_size
+-----------------------------------------------------------------------------------------
 local function get_tile_size()
 	return TILE_SIZE + TILE_MARGIN
 end
 M.get_tile_size = get_tile_size
 
+
+-- destroy
+-----------------------------------------------------------------------------------------
 local function destroy()
 	for i = #grid_array, 1, -1 do 
 		grid_array[i]:removeEventListener( "touch", touch_tile )

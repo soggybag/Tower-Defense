@@ -1,3 +1,8 @@
+-----------------------------------------------------------------------------------------
+-- 
+-- defense_button_group.lua
+-- 
+-----------------------------------------------------------------------------------------
 
 
 -----------------------------------------------------------------------------------------
@@ -6,6 +11,14 @@ local M = {}
 local energy = require( "lib.energy" )
 local defense = require( "lib.defense" )
 local defense_button = require( "lib.defense_button" )
+-----------------------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Private properties 
+-- 
+-----------------------------------------------------------------------------------------
 
 local defense_button_array = {}
 local index = 1
@@ -13,7 +26,19 @@ local select_sound
 
 local defense_button_group
 
+-----------------------------------------------------------------------------------------
 
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Provate methods 
+-- 
+-----------------------------------------------------------------------------------------
+
+
+-- enable_disable_buttons
+-- Responds to energy events
+-----------------------------------------------------------------------------------------
 local function enable_disable_buttons( event )
 	for i = 1, #defense_button_array,1 do 
 		local button = defense_button_array[i]
@@ -27,6 +52,10 @@ local function enable_disable_buttons( event )
 end 
 Runtime:addEventListener( "energy", enable_disable_buttons )
 
+
+
+-- select_defense_button
+-----------------------------------------------------------------------------------------
 local function select_defense_button()
 	for i = 1, #defense_button_array, 1 do 
 		local button = defense_button_array[i]
@@ -39,6 +68,9 @@ local function select_defense_button()
 	end
 end
 
+
+-- on_touch
+-----------------------------------------------------------------------------------------
 local function on_touch( event )
 	if event.phase == "began" then 
 		audio.play( select_sound )
@@ -54,6 +86,9 @@ local function on_touch( event )
 	return true 
 end 
 
+
+-- make_defense_buttons 
+-----------------------------------------------------------------------------------------
 local function make_defense_buttons()
 	local defense_type_array = defense.get_types()
 	for i = 1, #defense_type_array do 
@@ -68,21 +103,42 @@ local function make_defense_buttons()
 	defense_button_array[1]:select()
 end
 -----------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------
+--
+-- Public methods
+-- 
+-----------------------------------------------------------------------------------------
+
+
+-- get_selected_defense
+-----------------------------------------------------------------------------------------
 local function get_selected_defense()
 	return selected_defense
 end 
 M.get_selected_defense = get_selected_defense
 
+
+-- get_view
+-----------------------------------------------------------------------------------------
 local function get_view()
 	return defense_button_group
 end 
 M.get_view = get_view
 
+
+-- get_selected 
+-----------------------------------------------------------------------------------------
 local function get_selected()
 	return selected_defense
 end 
 M.get_selected = get_selected
 
+
+-- build
+-----------------------------------------------------------------------------------------
 local function build()
 	defense_button_group = display.newGroup()
 	make_defense_buttons()
@@ -91,6 +147,9 @@ local function build()
 end 
 M.build = build
 
+
+-- destroy
+-----------------------------------------------------------------------------------------
 local function destroy()
 	for i = #defense_button_array, 1, -1 do 
 		defense_button_array[i]:destroy()

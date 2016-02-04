@@ -1,9 +1,20 @@
-
+-----------------------------------------------------------------------------------------
+-- 
+-- people.lua 
+-- 
 -------------------------------------------------------------------------------
 local M = {}
 -------------------------------------------------------------------------------
 local sprite_manager = require( "lib.sprite-manager" )
-------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------
+-- 
+-- Private properties 
+-- 
+-----------------------------------------------------------------------------------------
+
 local eat_person_sound
 -------------------------------------------------------------------------------
 local PEOPLE_SIZE = {width=3, height=6}
@@ -22,13 +33,26 @@ local people_limit_right = display.contentWidth - 60
 
 local people_group
 local building_group
+
+
+
 ------------------------------------------------------------------------------
+-- 
+-- Private methods 
+-- 
+-----------------------------------------------------------------------------------------
+
+-- update_people_count
+-----------------------------------------------------------------------------------------
 local function update_people_count()
 	if people_text ~= nil then 
 		people_text.text = people
 	end 
 end 
---------------------------------------------
+
+
+-- eat_person
+-----------------------------------------------------------------------------------------
 local function eat_person()
 	-- play munching sound
 	-- display an animation at the location of person eaten
@@ -41,7 +65,10 @@ local function eat_person()
 		
 	end 
 end 
-------------------------------------------
+
+
+-- person
+-----------------------------------------------------------------------------------------
 local function person()
 	local p = sprite_manager.get_random_person()
 	if math.random( 2 ) > 1 then 
@@ -60,12 +87,27 @@ local function person()
 	people_array[ #people_array + 1 ] = p
 	return p 
 end 
------------------------------------------
+
+
+
+-- buildings 
+-----------------------------------------------------------------------------------------
 local function building() 
 	local b = sprite_manager.get_random_building()
 	return b
 end 
------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Public methods 
+-- 
+-----------------------------------------------------------------------------------------
+
+
+-- make_alien
+-----------------------------------------------------------------------------------------
 local function make_alien( alien_id )
 	local a = sprite_manager.get_sprite_by_name( alien_id )
 	
@@ -97,11 +139,18 @@ local function make_alien( alien_id )
 	return false -- return false do not remove this yet
 end 
 M.make_alien = make_alien
-------------------------------------------------------------------------------
+
+
+-- get_people 
+-----------------------------------------------------------------------------------------
 local function get_people()
 	return people
 end 
 M.get_people = get_people 
+
+
+-- update
+-----------------------------------------------------------------------------------------
 local function update()
 	for i = #people_array, 1, -1 do 
 		people_array[i]:move()
@@ -114,8 +163,10 @@ local function update()
 	end 
 end 
 M.update = update
----------------------------------------
--- Make this display objects 
+
+
+-- make
+-----------------------------------------------------------------------------------------
 local function make()
 	-- Make buildings
 	for i = 1, buildings do 
@@ -136,14 +187,21 @@ local function make()
 	end 
 end 
 M.make = make
---------------------------------------
+
+
+-- set_people 
+-----------------------------------------------------------------------------------------
 local function set_people( n )
 	people = n
 	update_people_count()
 	-- need to update people on ground **********
 end 
 M.set_people = set_people
---------------------------------------
+
+
+
+-- build 
+-----------------------------------------------------------------------------------------
 local function build()
 	building_group = display.newGroup()
 	people_group = display.newGroup()
@@ -159,26 +217,38 @@ local function build()
 	make()
 end 
 M.build = build
--------------------------------------
+
+
+-- set_view 
+-----------------------------------------------------------------------------------------
 local function set_view( view )
 	people_view = view
 end 
 M.set_view = set_view 
---------------------------------------
+
+
+-- clear_people 
+-----------------------------------------------------------------------------------------
 local function clear_people()
 	for i = #people_array, 1, -1 do 
 		display.remove( table.remove( people_array, i ) )
 	end 
 end 
 M.clear_people = clear_people
----------------------------------------
+
+
+-- clear_aliens
+-----------------------------------------------------------------------------------------
 local function clear_aliens()
 	for i = #people_alien_array, 1, -1 do 
 		display.remove( table.remove( people_alien_array, i ) )
 	end 
 end 
 M.clear_aliens = clear_aliens
----------------------------------------
+
+
+-- destroy 
+-----------------------------------------------------------------------------------------
 local function destroy()
 	clear_aliens()
 	clear_people()

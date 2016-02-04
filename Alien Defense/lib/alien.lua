@@ -1,3 +1,14 @@
+-----------------------------------------------------------------------------------------
+--
+-- alien.lua
+-- 
+-----------------------------------------------------------------------------------------
+
+--[[
+	Creates aliens 
+	Stores alien attributes 
+	
+--]]
 
 -----------------------------------------------------------------------------------------
 local M = {}
@@ -5,12 +16,22 @@ local M = {}
 local grid = require( "lib.grid" )
 local people = require( "lib.people" )  
 local sprite_manager = require( "lib.sprite-manager" )
+-- local collision_manager = require("lib.collision_manager")
 -----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Private properties 
+-- 
+-----------------------------------------------------------------------------------------
+
 -- local alien_type_array = require( "dmc_autostore" ).data.aliens
+
+-- Set all alien properties 
 
 local alien_type_array = { 
 	{id="alien_1", name="blue 1", 	speed=0.2, hits=5, damage=0.1},
-	{id="alien_2", name="bomb",  	speed=1.0, hits=3, damage=0.1},
+	{id="alien_2", name="bomb",  	speed=1.0, hits=1, damage=0.1},
 	{id="alien_3", name="blue 2", 	speed=0.7, hits=4, damage=0.1},
 	{id="alien_4", name="blue 3", 	speed=0.3, hits=7, damage=0.1},
 	{id="alien_5", name="blue 4", 	speed=2.0, hits=2, damage=0.1},
@@ -28,6 +49,7 @@ local alien_type_array = {
 } 
 
 -----------------------------------------------------------------------------------------
+
 local alien_array = {}
 local alien_view
 local alien_timer
@@ -35,6 +57,15 @@ local rows, cols = grid.get_rows_cols()
 local tile_size = grid.get_tile_size()
 local end_y = display.contentHeight -- + 17
 local destroyed_sound
+
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Private functions 
+-- 
+-----------------------------------------------------------------------------------------
+
+-- Make a random alien 
 -----------------------------------------------------------------------------------------
 local function make()
 	local n = math.random( #alien_type_array )
@@ -51,13 +82,14 @@ local function make()
 	alien.grid 		= nil 
 	alien.alien_type = n
 	
-	alien.x = math.random( cols ) * tile_size -9
+	alien.x = math.random( cols ) * tile_size -14
 	alien.y = -16
 	
 	function alien:remove()
 		display.remove( self )
 	end
 	
+	-- Alien hit by something
 	function alien:hit( damage )
 		self.hits = self.hits - damage
 		if self.hits <= 0 then
@@ -80,12 +112,29 @@ local function make()
 end 
 
 -----------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------
+-- 
+-- Public properties 
+-- 
+-----------------------------------------------------------------------------------------
+
+
+-- Set view - 
+-- Pass a display group where aliens will be added as they are created 
+-----------------------------------------------------------------------------------------
 local function set_view( view )
 	alien_view = view
 end 
 M.set_view = set_view
 
+
+
+
 -- Alien update each frame -- 
+-----------------------------------------------------------------------------------------
 local function update()
 	for i = #alien_array, 1, -1 do 
 		local alien = alien_array[i]
@@ -96,7 +145,13 @@ local function update()
 			local tile = grid.alien_in_tile( alien )
 		
 			if tile ~= nil and tile.has_defense then -- munch 
-				tile.defense:hit( alien.damage )
+				if alien.name == "bomb" then 
+					-- Make a big explosion
+					-- collision_manager.make_explosion_multi( alien.x, alien.y, 6 )
+				else 
+					tile.defense:hit( alien.damage )
+				end 
+				
 			
 			else -- move alien 
 				if alien:move() then -- Move and check if this has moved off screen 
@@ -112,26 +167,48 @@ end
 M.update = update
 ------------------------------
 
+
+
+
+-- start_timer 
+-- Timer creates aliens at delay ms
+-----------------------------------------------------------------------------------------
 local function start_timer( delay, count )
 	alien_timer = timer.performWithDelay( delay, make, count )
 end 
 M.start_timer = start_timer
 
+
+-- stop_timer 
+-- Stops the timer 
+-----------------------------------------------------------------------------------------
 local function stop_timer()
 	timer.cancel( alien_timer )
 end 
 M.stop_timer = stop_timer
 
+
+-- get_array 
+-- Returns the array of aliens 
+-----------------------------------------------------------------------------------------
 local function get_array()
 	return alien_array
 end
 M.get_array = get_array
 
+
+-- get_types 
+-- returns alien types array
+-----------------------------------------------------------------------------------------
 local function get_types()
 	return alien_type_array
 end
 M.get_types = get_types
 
+
+-- cleat_aliens
+-- Clears all aliens from display
+-----------------------------------------------------------------------------------------
 local function clear_aliens()
 	for i = 1, #alien_array do 
 		display.remove( table.remove( alien_array ) )
@@ -139,12 +216,20 @@ local function clear_aliens()
 end 
 M.clear_aliens = clear_aliens
 
+
+-- build
+-- initializes this module 
+-----------------------------------------------------------------------------------------
 local function build()
 	destroyed_sound = audio.loadSound( "sound/alien-destroyed.wav" )
 	return true 
 end 
 M.build = build
 
+
+-- set_speed_hits_by_name
+-- Sets alien properties of alien by name
+-----------------------------------------------------------------------------------------
 local function set_speed_hits_by_name( name, speed, hits )
 	for i = 1, #alien_type_array do 
 		if alien_type_array[i].name == name then 
@@ -156,6 +241,10 @@ local function set_speed_hits_by_name( name, speed, hits )
 end 
 M.set_speed_hits_by_name = set_speed_hits_by_name
 
+
+-- destroy
+-- Destroys this module
+-----------------------------------------------------------------------------------------
 local function destroy()
 	stop_timer()
 	clear_aliens()
