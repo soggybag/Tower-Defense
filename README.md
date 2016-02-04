@@ -1,9 +1,7 @@
 #Tower-Defense
-=============
-A Tower Defense style game. 
+A Tower Defense style game. In the vein of plants vs zombies. Enemies attack in columns, and defeines are placed on a grid. 
 
 ##To-Do
-=============
 * Create a Sound module to handle audio chores. 
 * Add "Defend World" button to world info. 
 * Work on missile art. 
@@ -30,11 +28,10 @@ A Tower Defense style game.
 	* Make it possible to place a new building right menu. 
  
  
- ## Bugs 
- =======
+ ## Bugs
  * Sometimes an alien gets stuck. Looks like it should have been removed. 
  Stays on screen not moving and ignores hits. 
 
 
 ##Features
-==========
+
