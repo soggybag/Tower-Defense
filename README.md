@@ -35,3 +35,8 @@ A Tower Defense style game. In the vein of plants vs zombies. Enemies attack in 
 
 ##Features
 
+Enemies advance in columns. Defenses are placed on a grid. Energy is accrued over time, and used to buy defenses. Enemies
+that reach the bottom of the screen move on from the left and "eat" the small humans which walk back and forth along the 
+bottom edge. 
+
+The enemies screen lists all of the enemies. Tapping an enemy displays the features of that enemy and allows these to be edited for testing. The same applies to defenses and worlds. 
